@@ -1,0 +1,4 @@
+interface:
+  display_name: "新客户报价"
+  short_description: "课程作业信息 + 最终报价Excel（公开流程版）"
+  default_prompt: "使用 $dp-product-new-customer-quote 根据学校/专业/学历/入学年份整理课程作业信息并输出最终报价Excel（中文输出）。"

@@ -1,0 +1,7 @@
+.DS_Store
+.env
+*.zip
+*.inspect.ndjson
+__pycache__/
+node_modules/
+_template_extract/

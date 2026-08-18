@@ -1,0 +1,7 @@
+interface:
+  display_name: "DP Proposal Designer"
+  short_description: "Generate DP academic proposal packages"
+  icon_small: "./assets/distinction-pass-icon.png"
+  icon_large: "./assets/distinction-pass-logo-wide.png"
+  brand_color: "#0E7490"
+  default_prompt: "Use $dp-proposal-designer to create a client-facing DP academic support proposal."

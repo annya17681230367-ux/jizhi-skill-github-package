@@ -1,0 +1,7 @@
+interface:
+  display_name: "极致学业规划年度方案"
+  short_description: "先出文字初稿，确认后生成学业规划PDF与独立报价单"
+  default_prompt: "Use $jizhi-academic-year-plan-proposal to create a text-first academic planning proposal draft from student, program, official course assessment, DDL, workload, risk, service value, AI智慧学习系统, and standard/custom package details. After confirmation, generate a separate client proposal PDF and quote sheet; keep pricing out of the proposal unless explicitly merged."
+
+policy:
+  allow_implicit_invocation: true
