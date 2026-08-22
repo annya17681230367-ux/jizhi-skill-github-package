@@ -1,0 +1,18 @@
+version: 2
+default_mode: standard
+standard_packages:
+  key_course:
+    label: "重点课程"
+    specialist_lessons: 6
+    planning_lessons: 10
+  non_key_course:
+    label: "非重点课程"
+    specialist_lessons: 2
+    planning_lessons: 8
+custom_mode:
+  allowed_only_when:
+    - "用户明确要求定制方案或定制课时"
+    - "用户提供逐课程课时"
+rules:
+  - "课程内容和风险只决定重点/非重点分类，不改变标准套餐课时"
+  - "标准套餐发生业务更新时只修改本文件"

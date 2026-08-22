@@ -1,0 +1,19 @@
+{
+  "version": "2.0.0",
+  "skills": {
+    "jizhi-academic-year-plan-proposal": {
+      "owns": ["学业规划", "全年规划", "陪跑", "专业课配置", "AI智慧学习系统", "规划报价", "混合方案统筹"],
+      "excludes": ["纯DP方案", "DP最终报价"]
+    },
+    "dp-proposal-designer": {
+      "owns": ["纯DP方案", "DP安心包", "DP全包", "DP价值模块", "DP服务流程"],
+      "excludes": ["DP最终报价", "陪跑课时配置", "规划报价"]
+    },
+    "dp-product-new-customer-quote": {
+      "owns": ["DP最终报价", "Assessment工作量", "DP报价Excel"],
+      "excludes": ["客户方案", "学业规划", "陪跑报价"]
+    }
+  },
+  "mixed_owner": "jizhi-academic-year-plan-proposal",
+  "mixed_components": ["dp-proposal-designer", "dp-product-new-customer-quote"]
+}

@@ -5,3 +5,6 @@
 __pycache__/
 node_modules/
 _template_extract/
+private_materials/
+.pytest_cache/
+tmp/

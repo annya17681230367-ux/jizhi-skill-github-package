@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Annual academic planning intake",
+  "type": "object",
+  "required": ["school", "program", "degree_level", "target_period", "student_profile", "target", "courses"],
+  "properties": {
+    "contract": {"enum": ["T01", "T02", "T03", "T05"]},
+    "school": {"type": "string", "minLength": 1},
+    "program": {"type": "string", "minLength": 1},
+    "degree_level": {"type": "string", "minLength": 1},
+    "target_period": {"type": "string", "minLength": 1},
+    "student_profile": {"type": "array", "items": {"type": "string"}},
+    "target": {"type": "string", "minLength": 1},
+    "courses": {"type": "array", "items": {"type": "object", "required": ["code", "name", "priority", "assessment", "service"]}},
+    "timeline": {"type": "array", "items": {"type": "object"}},
+    "sources": {"type": "array", "items": {"type": "object"}},
+    "pending": {"type": "array", "items": {"type": "string"}},
+    "brand": {"type": "boolean"},
+    "quote_mode": {"enum": ["none", "separate", "merged"]}
+  }
+}

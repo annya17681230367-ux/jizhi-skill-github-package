@@ -1,0 +1,23 @@
+{
+  "contract": "T01",
+  "school": "示例大学",
+  "program": "商业分析",
+  "degree_level": "本科",
+  "target_period": "2026/27",
+  "student_profile": ["语言基础一般", "目标是稳定通过并提升成绩"],
+  "target": "稳定通过并冲刺中上水平",
+  "planning_items": {
+    "个人学业画像": "语言基础一般，执行能力需加强。",
+    "问题诊断与定位": "课程理解、表达与DDL管理需要同步改善。",
+    "目标差距分析": "先稳定核心课程，再逐步提高输出质量。",
+    "课程优先级排序": "TEST1001列为重点课程。",
+    "阶段行动建议": "开学前预习，学期中按周执行，考前集中复习。",
+    "学业风险清单": "语言、量化基础和任务延误风险。"
+  },
+  "courses": [{"code": "TEST1001", "name": "定量方法", "priority": "重点", "assessment": "报告与考试", "service": "专业课+陪跑", "hours": "6节专业课+10节陪跑课"}],
+  "timeline": [{"stage": "开学前", "period": "8月", "action": "基础预习和材料建档", "owner": "学业规划师/专业课老师"}],
+  "sources": [{"label": "官方课程目录", "url": "https://example.edu/module"}],
+  "pending": ["具体DDL待课程平台确认"],
+  "brand": false,
+  "quote_mode": "separate"
+}

@@ -1,0 +1,16 @@
+{
+  "school": "示例大学",
+  "program": "商业分析",
+  "degree_level": "本科",
+  "target_year": "2026/27",
+  "scope": "课程作业",
+  "package_type": "安心包",
+  "target_score": "60+",
+  "assessments": [
+    {
+      "course_code": "TEST1001", "course_name": "商业研究", "term": "S1", "assessment": "研究报告", "weight": "40%",
+      "official_workload": "2000字", "equivalent_words": 2000, "requirement": "个人报告", "risk": "中",
+      "evidence": "官方模块页", "source_url": "https://example.edu/module", "evidence_status": "已核实", "note": ""
+    }
+  ]
+}

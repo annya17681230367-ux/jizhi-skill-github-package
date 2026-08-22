@@ -56,9 +56,7 @@ python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-githu
 
 ## 报价配置
 
-普通同事不需要配置报价接口。需要最终DP报价时，把课程、Assessment、作业量和目标分发给管理员统一报价。
-
-只有管理员机器需要配置报价环境变量：
+只查看或制作方案的同事不需要报价接口。需要直接生成最终DP价格的同事，必须由管理员私下发放授权信息，并在各自机器配置环境变量：
 
 ```bash
 cp .env.example .env
@@ -72,11 +70,12 @@ open .env
 ## 上传前检查
 
 ```bash
+TEST_PYTHON=python3 scripts/run_tests.sh
 bash -n install.sh
 bash -n scripts/setup_quote_env.sh
 bash -n scripts/self_check_quote_api.sh
 find . -name ".DS_Store" -o -name "*.inspect.ndjson" -o -name ".env"
-grep -R "YOUR_REAL_API_KEY" . || true
+git grep -n -E "railway\\.app|QUOTE_API_KEY=.{20,}" -- . ':!.env.example' && exit 1 || true
 ```
 
 ## 当前修复点
@@ -86,3 +85,4 @@ grep -R "YOUR_REAL_API_KEY" . || true
 - DP报价不再混用学业规划陪跑报价逻辑。
 - 混合方案先分开 DP 和陪跑报价，再汇总。
 - 没有最终价格时继续做报价-ready表格，不编价格。
+- 已废弃的 `dp-customer-visual-proposal` 在安装时自动隔离，其能力已迁移到 `dp-proposal-designer`。

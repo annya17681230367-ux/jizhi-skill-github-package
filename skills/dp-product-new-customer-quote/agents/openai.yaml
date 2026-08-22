@@ -1,4 +1,7 @@
 interface:
-  display_name: "新客户报价"
-  short_description: "课程作业信息 + 最终报价Excel（公开流程版）"
-  default_prompt: "使用 $dp-product-new-customer-quote 根据学校/专业/学历/入学年份整理课程作业信息并输出最终报价Excel（中文输出）。"
+  display_name: "DP Assessment 报价"
+  short_description: "官方考核工作量与密封DP报价"
+  default_prompt: "使用 $dp-product-new-customer-quote 仅整理官方Assessment工作量并生成DP报价交付，不生成方案或陪跑报价。"
+
+policy:
+  allow_implicit_invocation: true

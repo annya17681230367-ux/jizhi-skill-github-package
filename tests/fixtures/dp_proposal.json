@@ -1,0 +1,17 @@
+{
+  "contract": "D01",
+  "version_status": "v2 官网检索版",
+  "school": "示例大学",
+  "program": "商业分析",
+  "degree_level": "本科",
+  "target_year": "2026/27",
+  "scope": "两门课程作业",
+  "target_score": "60+",
+  "product": "DP安心包",
+  "situation": ["写作基础一般", "需要管理多个作业节点"],
+  "risks": [{"title": "DDL集中", "detail": "两门课程存在交叉提交风险"}],
+  "courses": [{"code": "TEST1001", "name": "商业研究", "assessment": "研究报告", "priority": "A", "service_focus": "拆解brief与rubric"}],
+  "timeline": [{"stage": "资料建档", "date": "开课后", "action": "同步brief与rubric", "student_input": "课程平台资料"}],
+  "materials_required": ["Assessment Brief", "Rubric"],
+  "quote_status": "待DP报价skill返回"
+}

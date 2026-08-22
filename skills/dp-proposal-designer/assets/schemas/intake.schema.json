@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DP proposal intake",
+  "type": "object",
+  "required": ["contract", "version_status", "school", "program", "degree_level", "target_year", "scope", "target_score", "product", "situation", "risks", "courses"],
+  "properties": {
+    "contract": {"enum": ["D01", "D02", "D03"]},
+    "version_status": {"enum": ["v1 初稿", "v2 官网检索版", "v3 报价确认版", "v4 成交发送版"]},
+    "school": {"type": "string"}, "program": {"type": "string"}, "degree_level": {"type": "string"},
+    "target_year": {"type": "string"}, "scope": {"type": "string"}, "target_score": {"type": "string"}, "product": {"type": "string"},
+    "situation": {"type": "array", "items": {"type": "string"}},
+    "risks": {"type": "array", "items": {"type": "object"}},
+    "courses": {"type": "array", "items": {"type": "object"}},
+    "timeline": {"type": "array", "items": {"type": "object"}},
+    "materials_required": {"type": "array", "items": {"type": "string"}},
+    "quote_status": {"type": "string"}
+  }
+}

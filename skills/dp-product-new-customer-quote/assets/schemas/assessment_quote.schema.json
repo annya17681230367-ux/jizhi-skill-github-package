@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DP assessment quote intake",
+  "type": "object",
+  "required": ["school", "program", "degree_level", "target_year", "scope", "assessments"],
+  "properties": {
+    "school": {"type": "string"}, "program": {"type": "string"}, "degree_level": {"type": "string"},
+    "target_year": {"type": "string"}, "scope": {"type": "string"}, "package_type": {"type": "string"}, "target_score": {"type": "string"},
+    "assessments": {"type": "array", "items": {"type": "object", "required": ["course_code", "course_name", "term", "assessment", "weight", "official_workload", "equivalent_words", "source_url", "evidence_status"]}}
+  }
+}

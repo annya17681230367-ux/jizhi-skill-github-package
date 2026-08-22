@@ -1,73 +1,38 @@
-# 包内容清单
+# Package Contents
 
-## 顶层文件
+## Runtime Skills
 
-- `README.md`: 包简介与快速安装。
-- `USAGE_MANUAL.md`: 实用手册，说明每个 skill 能做什么。
-- `GITHUB_UPLOAD_GUIDE.md`: GitHub 上传、公开/私有注意事项、安装方式。
-- `.env.example`: 报价环境变量模板，不含真实接口地址和密钥。
-- `.gitignore`: 避免上传 `.env`、缓存和压缩包。
-- `install.sh`: 一键安装所有 skills 到 `~/.codex/skills`。
-- `scripts/setup_quote_env.sh`: 管理员本机写入报价环境变量。
-- `scripts/self_check_quote_api.sh`: 管理员本机报价通道自检。
-- `scripts/quote_dp_api.py`: 管理员本机统一调用DP报价接口，只输出密封报价结果。
+- `skills/jizhi-academic-year-plan-proposal/`
+  - `SKILL.md`: annual-planning entrypoint
+  - `references/output_contracts.md`: T01/T02/T03/T05 output structures
+  - `references/service_packages.yaml`: sole standard-hour source
+  - `references/service_logic.md`: course classification and execution rules
+  - `assets/schemas/intake.schema.json`: canonical input contract
+  - `assets/templates/planning_fixed_modules.json`: fixed value copy
+  - `scripts/build_planning_proposal.py`: deterministic HTML renderer
+  - `templates/fixed_cases/`: annual, public-sector, quote, Excel, and mixed visual references
+- `skills/dp-proposal-designer/`
+  - `SKILL.md`: DP-proposal entrypoint
+  - `references/output_contracts.md`: D01/D02/D03 structures
+  - `assets/templates/dp_fixed_value_modules.json`: sole fixed-value copy source
+  - `scripts/validate_intake.py`: intake gate
+  - `scripts/build_dp_proposal.py`: stable six-module HTML renderer
+  - `assets/schemas/intake.schema.json`: canonical DP input contract
+  - `templates/fixed_cases/`: generic pure-DP visual reference only
+- `skills/dp-product-new-customer-quote/`
+  - `SKILL.md`: DP-quote entrypoint
+  - `references/output_contracts.md`: Q01/Q02 structures
+  - `scripts/quote_dp_api.py`: authorized sealed quote client
+  - `scripts/build_quote_workbook.py`: Assessment validation, quote request and XLSX output
 
-## Skills
+## Package Tools
 
-### `skills/jizhi-academic-year-plan-proposal`
+- `config/skill_boundaries.json`: sole package-level ownership registry
+- `scripts/route_request.py`: route regression and diagnostic helper; not a Codex runtime hook
+- `install.sh`: installs exactly three skills and backs up existing versions
+- `scripts/audit_boundaries.py`: checks boundaries, contracts, duplicates, and embedded quote keys
+- `scripts/run_tests.sh`: fixed route, renderer, workbook, installer and audit regressions
+- `scripts/quote_dp_api.py`: backward-compatible quote entrypoint
+- `VERSION`: package version
 
-用于：
-
-- 学业规划方案
-- 全年/单学期陪跑方案
-- AI智慧学习系统方案
-- 学业规划报价单
-- 对公精简方案
-- Excel课程考核整理表
-- DP + 陪跑混合边界方案
-
-关键引用：
-
-- `references/scenario_routing.md`
-- `references/pricing_quote_rules.md`
-- `references/fixed_template_cases.md`
-- `references/brand_visual_spec.md`
-- `references/service_logic.md`
-- `templates/fixed_cases/`: 已确认的固定PDF/Excel/DOCX案例模板。
-- 追加可用方案案例：UCL GHS DP安心包+考试陪跑、香港大学MAPPE对公服务匹配、悉尼大学商管DP+陪跑服务价值方案。
-
-### `skills/dp-proposal-designer`
-
-用于：
-
-- DP安心包方案
-- DP卓越安心包方案
-- 毕业无忧方案
-- 60+/65+/Distinction目标管理
-- 纯DP服务方案
-- DP报价规则入口
-
-关键引用：
-
-- `references/dp_proposal_patterns.md`
-- `references/dp_pricing_rules.md`
-- `references/fixed_dp_template_cases.md`
-- `references/brand_visual_guidelines.md`
-- `templates/fixed_cases/`: 纯DP方案和Assessment整理固定案例模板。
-- 追加混合DP案例：UCL GHS、悉尼大学商管。
-
-### `skills/dp-product-new-customer-quote`
-
-用于：
-
-- 课程Assessment整理
-- 作业量换算
-- 在授权环境中调用报价通道
-- 输出最终DP报价
-- 密封内部价格公式
-
-需要：
-
-- 管理员私下配置的 `QUOTE_API_BASE`
-- 管理员私下配置的 `QUOTE_API_KEY`
-- `openpyxl`
+Generic example files provide layout evidence only. Customer-named cases and paid pricing documents are kept in a separate private-materials directory and are not part of the public package.
