@@ -1,6 +1,6 @@
 # 极致学业规划与 DP Skills
 
-Version `2.2.0` fixes three independent product boundaries and adds executable, regression-tested generation paths.
+Version `2.2.1` fixes three independent product boundaries and adds executable, regression-tested generation paths.
 
 ## Three Skills
 
@@ -20,7 +20,7 @@ cd jizhi-skill-github-package
 ./install.sh
 ```
 
-安装器只安装上述三个 skill，将旧版本备份到 `~/.codex/skill-backups/`，并自动隔离已废弃的 `dp-customer-visual-proposal`、`jizhi-academic-planning-report` 和 `jizhi-essay-customer-proposal` 入口。
+安装器会在 `~/.codex/jizhi-runtime/` 创建隔离 Python 环境，自动检测或安装 Chromium，并实测生成 XLSX 与 PDF；不会修改系统 Python。随后安装三个 Skill、备份旧版本，并隔离已废弃入口。网络受限时也可先执行 `JIZHI_SKIP_RUNTIME_SETUP=1 ./install.sh`，但 Excel/PDF 在完成运行时配置前不可用。
 
 ## Deterministic Output
 

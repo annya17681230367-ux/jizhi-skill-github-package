@@ -5,7 +5,9 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.util
 import json
+import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -13,6 +15,18 @@ from pathlib import Path
 WARNING_PREFIX = "亲爱的学业规划师，您好！此次方案生成存在【预警提示】："
 FIELDS = ("school", "program", "degree_level", "target_year", "scope", "assessments")
 ASSESSMENT_FIELDS = ("course_code", "course_name", "term", "assessment", "weight", "official_workload", "equivalent_words", "workload_basis", "review_status", "source_url", "source_year", "evidence_status")
+
+
+def ensure_runtime_python():
+    if importlib.util.find_spec("openpyxl"):
+        return
+    codex_home = Path(os.environ.get("CODEX_HOME", Path.home() / ".codex"))
+    config_path = codex_home / "jizhi-runtime/runtime.json"
+    if config_path.exists():
+        python = json.loads(config_path.read_text(encoding="utf-8")).get("python")
+        if python and Path(python).exists() and Path(python).absolute() != Path(sys.executable).absolute():
+            os.execv(python, [python, __file__, *sys.argv[1:]])
+    raise SystemExit("openpyxl is missing. Run the package install.sh to configure the Jizhi runtime.")
 
 
 def validate(data: dict) -> list[str]:
@@ -175,6 +189,7 @@ def build(data: dict, quote: dict, output: Path, trace: dict) -> None:
 
 
 def main() -> int:
+    ensure_runtime_python()
     parser = argparse.ArgumentParser()
     parser.add_argument("input_json")
     parser.add_argument("output_xlsx")

@@ -4,6 +4,7 @@
 import argparse
 import os
 import subprocess
+import sys
 from pathlib import Path
 
 
@@ -16,7 +17,7 @@ def main():
     calculator = codex_home / "skills/jizhi-planning-pricing-private/scripts/calculate_quote.py"
     if not calculator.exists():
         raise SystemExit("Private planning pricing add-on is not installed; output must remain 待内部核价.")
-    subprocess.run(["python3", str(calculator), args.input_json, args.output_json], check=True)
+    subprocess.run([sys.executable, str(calculator), args.input_json, args.output_json], check=True)
 
 
 if __name__ == "__main__":

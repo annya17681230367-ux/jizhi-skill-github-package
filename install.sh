@@ -9,6 +9,11 @@ EXPECTED=(dp-product-new-customer-quote dp-proposal-designer jizhi-academic-year
 RETIRED=(dp-customer-visual-proposal jizhi-academic-planning-report jizhi-essay-customer-proposal)
 
 mkdir -p "$SKILLS_DIR"
+if [ "${JIZHI_SKIP_RUNTIME_SETUP:-0}" != "1" ]; then
+  bash "$ROOT_DIR/scripts/bootstrap_runtime.sh"
+else
+  echo "Skipped runtime setup because JIZHI_SKIP_RUNTIME_SETUP=1"
+fi
 for name in "${RETIRED[@]}"; do
   target="$SKILLS_DIR/$name"
   if [ -e "$target" ]; then

@@ -44,6 +44,10 @@ TEST_PYTHON=python3 scripts/run_tests.sh
 
 然后确认：官方事实有来源；未知内容进入预警；课程与服务匹配完整；没有跨产品价格；没有API Key；PDF/Excel经过视觉检查；报价与输入指纹一致。
 
+## Excel 与 PDF 运行环境
+
+首次执行根目录 `./install.sh` 时会自动创建 `~/.codex/jizhi-runtime/venv`，安装 `openpyxl` 与 `pypdf`，并检测 Chrome/Edge；仅在没有本机浏览器时安装 Playwright 与隔离 Chromium。安装必须通过真实 XLSX/PDF 自检。生成脚本发现系统 Python 缺少依赖时，会自动切换到该隔离运行时。
+
 ## DP报价权限
 
 每位需要直接报价的同事都必须在本机配置管理员私下发放的授权信息。GitHub仓库不包含共享密钥；未授权机器只能生成Assessment和待核价Excel，不能得到最终价格。

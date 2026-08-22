@@ -47,6 +47,9 @@ for name in EXPECTED:
         fail(f"{name} is missing references/output_contracts.md")
 
 required_runtime = (
+    ROOT / "requirements-runtime.txt",
+    ROOT / "scripts/bootstrap_runtime.sh",
+    ROOT / "scripts/runtime_self_check.py",
     SKILLS / "jizhi-academic-year-plan-proposal/assets/schemas/intake.schema.json",
     SKILLS / "jizhi-academic-year-plan-proposal/assets/templates/template_contracts.json",
     SKILLS / "jizhi-academic-year-plan-proposal/assets/data/official_source_registry.json",

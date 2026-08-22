@@ -34,6 +34,9 @@
 
 ## Package Tools
 
+- `requirements-runtime.txt`: isolated Excel/PDF runtime dependencies
+- `scripts/bootstrap_runtime.sh`: automatic runtime detection, installation and self-check
+- `scripts/runtime_self_check.py`: real XLSX/PDF generation gate
 - `config/skill_boundaries.json`: sole package-level ownership registry
 - `scripts/route_request.py`: route regression and diagnostic helper; not a Codex runtime hook
 - `install.sh`: installs exactly three skills and backs up existing versions

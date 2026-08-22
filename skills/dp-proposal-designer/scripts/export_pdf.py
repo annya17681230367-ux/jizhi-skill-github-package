@@ -2,12 +2,34 @@
 """Export canonical HTML to PDF and enforce basic page/render gates."""
 
 import argparse
+import importlib.util
+import json
+import os
 import shutil
 import subprocess
+import sys
 from pathlib import Path
 
 
+def runtime_config():
+    codex_home = Path(os.environ.get("CODEX_HOME", Path.home() / ".codex"))
+    path = codex_home / "jizhi-runtime/runtime.json"
+    return json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+
+
+def ensure_runtime_python():
+    if importlib.util.find_spec("pypdf"):
+        return
+    python = runtime_config().get("python")
+    if python and Path(python).exists() and Path(python).absolute() != Path(sys.executable).absolute():
+        os.execv(python, [python, __file__, *sys.argv[1:]])
+    raise SystemExit("pypdf is missing. Run the package install.sh to configure the Jizhi runtime.")
+
+
 def find_browser():
+    configured = os.environ.get("JIZHI_CHROMIUM_PATH") or runtime_config().get("browser")
+    if configured and Path(configured).exists():
+        return configured
     candidates = (
         "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
         "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge",
@@ -33,6 +55,7 @@ def page_count(path):
 
 
 def main():
+    ensure_runtime_python()
     parser = argparse.ArgumentParser()
     parser.add_argument("input_html")
     parser.add_argument("output_pdf")

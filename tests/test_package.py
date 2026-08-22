@@ -112,7 +112,7 @@ class PackageTests(unittest.TestCase):
                 retired = home/f"skills/{name}"
                 retired.mkdir(parents=True)
                 (retired/"SKILL.md").write_text("old", encoding="utf-8")
-            env = os.environ.copy(); env["CODEX_HOME"] = str(home)
+            env = os.environ.copy(); env["CODEX_HOME"] = str(home); env["JIZHI_SKIP_RUNTIME_SETUP"] = "1"
             result = run("bash", "install.sh", env=env)
             self.assertIn("Quarantined retired competing skill", result.stdout)
             self.assertEqual(len(list((home/"skills").glob("*/SKILL.md"))), 3)
