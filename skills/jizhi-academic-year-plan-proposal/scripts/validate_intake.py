@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 REQUIRED = ("school", "program", "degree_level", "target_period", "student_profile", "target", "courses")
-CONTRACTS = {"T01", "T02", "T03", "T05"}
+CONTRACTS = {"T00", "T01", "T02", "T03", "T05"}
 
 
 def validate(data: dict) -> list[str]:
@@ -17,6 +17,8 @@ def validate(data: dict) -> list[str]:
         for key in ("code", "name", "priority", "assessment", "service"):
             if course.get(key) in (None, ""):
                 errors.append(f"courses[{index}].missing:{key}")
+    if data.get("contract") == "T03" and not data.get("quote"):
+        errors.append("T03.missing:quote")
     return errors
 
 

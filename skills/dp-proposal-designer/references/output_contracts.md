@@ -2,9 +2,11 @@
 
 Select exactly one contract. Dynamic sections are customized; fixed value modules come from `assets/templates/dp_fixed_value_modules.json`.
 
+Every proposal contract contains `课程与服务匹配`: `课程名称 | 课程代码 | 课程考核形式 | 课程工作量 | 匹配服务`.
+
 ## D01 Pure DP Client Proposal
 
-Template: `templates/fixed_cases/固定模板06_纯DP服务方案设计.pdf`.
+Program template key: `D01` in `assets/templates/template_contracts.json`.
 
 Fixed order:
 

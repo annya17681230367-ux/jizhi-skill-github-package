@@ -10,7 +10,7 @@
   "product": "DP安心包",
   "situation": ["写作基础一般", "需要管理多个作业节点"],
   "risks": [{"title": "DDL集中", "detail": "两门课程存在交叉提交风险"}],
-  "courses": [{"code": "TEST1001", "name": "商业研究", "assessment": "研究报告", "priority": "A", "service_focus": "拆解brief与rubric"}],
+  "courses": [{"code": "TEST1001", "name": "商业研究", "assessment": "研究报告", "workload": "2000字", "workload_basis": "official", "priority": "A", "service_focus": "拆解brief与rubric"}],
   "timeline": [{"stage": "资料建档", "date": "开课后", "action": "同步brief与rubric", "student_input": "课程平台资料"}],
   "materials_required": ["Assessment Brief", "Rubric"],
   "quote_status": "待DP报价skill返回"

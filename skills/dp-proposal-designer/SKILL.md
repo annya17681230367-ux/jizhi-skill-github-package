@@ -53,6 +53,8 @@ Read `references/brand_visual_guidelines.md` only for branded HTML/PDF output. R
 6. Reuse fixed value, assurance, process and team modules without rewriting.
 7. If a price is requested, hand the final assessment workload to `dp-product-new-customer-quote`; do not calculate it here.
 8. Render and visually verify the final PDF.
+9. Add `课程与服务匹配` for every covered course: course code, course name, assessment form, workload and matched DP service.
+10. If any fact, workload or scope is estimated/unreviewed, emit the warning block and use this exact reply prefix: `亲爱的学业规划师，您好！此次方案生成存在【预警提示】：`.
 
 ## Hard Rules
 

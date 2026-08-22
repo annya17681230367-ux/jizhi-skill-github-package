@@ -39,8 +39,34 @@ class PackageTests(unittest.TestCase):
             run(PYTHON, script, FIXTURES/"annual.json", b)
             self.assertEqual(hashlib.sha256(a.read_bytes()).digest(), hashlib.sha256(b.read_bytes()).digest())
             text = a.read_text(encoding="utf-8")
-            for label in ("六大学业规划模块", "AI智慧学习系统", "每日 / 每周 / 每月执行"):
+            for label in ("学业规划模块", "课程与服务匹配", "AI智慧学习系统", "每日 / 每周 / 每月执行"):
                 self.assertIn(label, text)
+
+    def test_annual_contracts_are_distinct(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            base = json.loads((FIXTURES/"annual.json").read_text(encoding="utf-8"))
+            expected = {
+                "T00": "学业规划模块",
+                "T01": "每日 / 每周 / 每月执行",
+                "T02": "学生情况与服务定位",
+                "T03": "报价追溯ID",
+                "T05": "产品责任边界",
+            }
+            outputs = []
+            for contract, marker in expected.items():
+                data = dict(base)
+                data["contract"] = contract
+                if contract in {"T03", "T05"}:
+                    data["quote"] = {"trace_id": "trace-test", "review_status": "已审核", "lines": [], "original_total": 100, "final_total": 100}
+                source = Path(tmp)/f"{contract}.json"
+                output = Path(tmp)/f"{contract}.html"
+                source.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+                run(PYTHON, "skills/jizhi-academic-year-plan-proposal/scripts/build_planning_proposal.py", source, output)
+                text = output.read_text(encoding="utf-8")
+                self.assertIn(marker, text)
+                self.assertIn("课程与服务匹配", text)
+                outputs.append(hashlib.sha256(output.read_bytes()).hexdigest())
+            self.assertEqual(len(set(outputs)), len(expected))
 
     def test_dp_proposal_deterministic(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -50,27 +76,42 @@ class PackageTests(unittest.TestCase):
             run(PYTHON, script, FIXTURES/"dp_proposal.json", b)
             self.assertEqual(a.read_bytes(), b.read_bytes())
             text = a.read_text(encoding="utf-8")
-            self.assertIn("v2 官网检索版", text)
+            self.assertNotIn("v2 官网检索版", text)
+            self.assertIn("课程与服务匹配", text)
             self.assertIn("DP安心包核心价值", text)
+
+    def test_dp_mixed_module_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            data = json.loads((FIXTURES/"dp_proposal.json").read_text(encoding="utf-8"))
+            data["contract"] = "D02"
+            source, output = Path(tmp)/"d02.json", Path(tmp)/"d02.html"
+            source.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+            run(PYTHON, "skills/dp-proposal-designer/scripts/build_dp_proposal.py", source, output)
+            text = output.read_text(encoding="utf-8")
+            self.assertIn("课程与服务匹配", text)
+            self.assertNotIn("你的情况", text)
 
     def test_quote_workbook(self):
         with tempfile.TemporaryDirectory() as tmp:
             output = Path(tmp)/"quote.xlsx"
-            run(PYTHON, "skills/dp-product-new-customer-quote/scripts/build_quote_workbook.py", FIXTURES/"dp_assessment.json", output, "--quote-json", FIXTURES/"dp_quote.json")
+            run(PYTHON, "skills/dp-product-new-customer-quote/scripts/build_quote_workbook.py", FIXTURES/"dp_assessment.json", output, "--quote-json", FIXTURES/"dp_quote.json", "--reviewer", "QA")
             from openpyxl import load_workbook
             wb = load_workbook(output, data_only=False)
-            ws = wb["课程考核与DP报价"]
-            values = [cell.value for row in ws.iter_rows() for cell in row]
+            self.assertEqual(wb.sheetnames, ["01课程考核汇总", "02课程与服务匹配", "03报价明细", "04资料来源", "05内部审核"])
+            ws = wb["01课程考核汇总"]
+            values = [cell.value for sheet in wb.worksheets for row in sheet.iter_rows() for cell in row]
             self.assertIn(12000, values)
             self.assertIn("折后价", values)
             self.assertEqual(ws["M10"].hyperlink.target, "https://example.edu/module")
+            self.assertTrue(output.with_suffix(".xlsx.trace.json").exists())
 
     def test_install_quarantines_retired_skill(self):
         with tempfile.TemporaryDirectory() as tmp:
             home = Path(tmp)
-            retired = home/"skills/dp-customer-visual-proposal"
-            retired.mkdir(parents=True)
-            (retired/"SKILL.md").write_text("old", encoding="utf-8")
+            for name in ("dp-customer-visual-proposal", "jizhi-academic-planning-report", "jizhi-essay-customer-proposal"):
+                retired = home/f"skills/{name}"
+                retired.mkdir(parents=True)
+                (retired/"SKILL.md").write_text("old", encoding="utf-8")
             env = os.environ.copy(); env["CODEX_HOME"] = str(home)
             result = run("bash", "install.sh", env=env)
             self.assertIn("Quarantined retired competing skill", result.stdout)
@@ -87,6 +128,8 @@ class PackageTests(unittest.TestCase):
                 output/"quote.xlsx",
                 "--quote-json",
                 FIXTURES/"dp_quote.json",
+                "--reviewer",
+                "QA",
             )
             for artifact in (output/"annual.html", output/"dp.html", output/"quote.xlsx"):
                 self.assertGreater(artifact.stat().st_size, 0, artifact.name)

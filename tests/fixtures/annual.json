@@ -14,9 +14,9 @@
     "阶段行动建议": "开学前预习，学期中按周执行，考前集中复习。",
     "学业风险清单": "语言、量化基础和任务延误风险。"
   },
-  "courses": [{"code": "TEST1001", "name": "定量方法", "priority": "重点", "assessment": "报告与考试", "service": "专业课+陪跑", "hours": "6节专业课+10节陪跑课"}],
+  "courses": [{"code": "TEST1001", "name": "定量方法", "priority": "重点", "assessment": "报告与考试", "workload": "2000字报告+期末考试", "workload_basis": "official", "service": "专业课+陪跑", "hours": "6节专业课+10节陪跑课"}],
   "timeline": [{"stage": "开学前", "period": "8月", "action": "基础预习和材料建档", "owner": "学业规划师/专业课老师"}],
-  "sources": [{"label": "官方课程目录", "url": "https://example.edu/module"}],
+  "sources": [{"label": "官方课程目录", "url": "https://example.edu/module", "source_year": "2026", "verified_at": "2026-08-22"}],
   "pending": ["具体DDL待课程平台确认"],
   "brand": false,
   "quote_mode": "separate"

@@ -10,7 +10,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 BOUNDARIES = json.loads((ROOT / "config" / "skill_boundaries.json").read_text(encoding="utf-8"))
 
-ANNUAL = ("学业规划", "全年规划", "陪跑", "专业课", "AI智慧学习系统", "规划报价", "课程规划")
+ANNUAL = (
+    "学业规划", "全年规划", "陪跑", "专业课", "AI智慧学习系统", "规划报价", "课程规划",
+    "个性化学业规划报告", "学业达成路径", "客户学业方案", "学业画像", "风险清单",
+)
 DP_PROPOSAL = ("DP方案", "DP安心包", "DP全包", "纯DP", "DP服务方案", "安心包方案", "全包作业方案")
 DP_QUOTE = ("DP报价", "DP产品价格", "安心包报价", "Assessment报价", "assessment并报价", "作业量报价", "最终报价")
 

@@ -2,7 +2,7 @@
 
 ## Root Causes Fixed
 
-1. **Overlapping entrypoints**: two DP proposal skills competed for the same request, while the annual skill also contained pure-DP templates.
+1. **Overlapping entrypoints**: legacy planning-report and customer-proposal skills competed with the annual-planning owner, while two DP proposal skills competed for pure-DP requests.
 2. **Repeated rules**: package hours, pricing notes, DP value copy, and template descriptions appeared in several files and drifted independently.
 3. **Examples treated as instructions**: large customer PDFs and case notes were repeatedly read even when only one output type was required.
 4. **Execution outside the owner**: the DP quote helper lived at repository root, so installed skills could lose the capability.
@@ -12,10 +12,14 @@
 
 - Exactly three public skills. `config/skill_boundaries.json` is the package-level ownership registry.
 - Each skill has one concise `SKILL.md` and one `references/output_contracts.md`.
-- Fixed content has a single source: planning hours in `service_packages.yaml`; DP value copy in `dp_fixed_value_modules.json`.
+- Fixed content has a single source per owner: planning modules in `planning_fixed_modules.json`; DP value copy in `dp_fixed_value_modules.json`; template boundaries in each owner's `template_contracts.json`.
 - Customer facts, official evidence, course risks, dates, and task mapping remain dynamic.
-- Example files are visual references and are opened only after an output contract is selected.
+- Every proposal contract includes `课程与服务匹配`; workload basis and source state remain visible for review.
+- Official URLs are retained in `official_source_registry.json`; request-year official evidence is preferred, then the latest official evidence.
+- HTML-to-PDF export is executable and page-count checked rather than recreated ad hoc.
 - DP quote execution ships inside the DP quote skill and fails closed without local authorization.
+- Planning pricing is a separate private add-on. The public repository contains only its fail-closed interface.
+- Ambiguity, model-estimated workload, unsupported package combinations and missing authoritative facts emit the fixed warning prefix and sidecar.
 
 ## Upgrade Rule
 

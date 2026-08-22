@@ -1,15 +1,15 @@
 ---
 name: jizhi-academic-year-plan-proposal
-description: Generate client-facing annual or term academic execution plans with course priority, 陪跑/专业课 hours, AI智慧学习系统, public-sector concise plans, mixed DP plus planning structure, and planning-product quotes. Use for 全年学业规划、学业管家、课程规划、陪跑方案、专业课配置、AI智慧学习系统、对公服务匹配 or DP加陪跑混合方案. Do not use for the standalone eight-item planning report, pure DP proposals, or DP final-price requests.
+description: "Generate the single canonical academic-planning family: eight-item personalized reports, annual/term execution plans, client proposals, public-sector concise plans, planning quotes, and mixed DP plus planning structure. Use for 学业规划报告、客户学业方案、全年规划、陪跑、专业课配置、AI智慧学习系统、对公服务匹配、陪跑报价 or DP加陪跑混合方案. Do not use for pure DP proposals or standalone DP final-price requests."
 ---
 
 # 极致学业规划年度方案
 
-Generate Chinese academic-planning deliverables. This skill owns planning and陪跑 logic only. It must not calculate DP prices or create pure-DP proposals.
+Generate Chinese academic-planning deliverables. This is the only public owner for personalized planning reports, annual execution plans, planning client proposals and planning-product quotes. It replaces `jizhi-academic-planning-report` and the planning/client-proposal portion of `jizhi-essay-customer-proposal`.
 
 ## Boundary
 
-- Use this skill for academic planning, course priority, standard/custom planning hours, term timelines, daily/weekly/monthly execution, AI智慧学习系统 and planning-product quotes.
+- Use this skill for eight-item diagnosis reports, academic planning, course priority, standard/custom planning hours, term timelines, daily/weekly/monthly execution, AI智慧学习系统, planning client proposals and planning-product quotes.
 - For pure DP/安心包/卓越安心包 proposals, use `dp-proposal-designer`.
 - For DP assessment pricing or a final DP price, use `dp-product-new-customer-quote`.
 - For mixed DP + planning work, this skill owns the combined client structure; keep the two service scopes and quote engines separate.
@@ -27,16 +27,17 @@ Collect only fields that materially affect the plan:
 
 If the user does not explicitly request custom hours, use the standard package configuration in `references/service_packages.yaml`. Do not invent custom hours.
 
-For stable production, normalize inputs to `assets/schemas/intake.schema.json`, validate with `scripts/validate_intake.py`, then render with `scripts/build_planning_proposal.py`.
+For stable production, normalize inputs to `assets/schemas/intake.schema.json`, validate with `scripts/validate_intake.py`, then render with `scripts/build_planning_proposal.py`. Every course must map to the shared `课程与服务匹配` fields: course code, course name, assessment form, workload and matched service.
 
 ## Evidence
 
-Use official university sources for course facts. Separate official facts from planning judgments. Unknown weights, DDLs, word counts or briefs must remain `待Moodle/Canvas/Assessment Brief确认`.
+Use `references/official_research_policy.md`. Prefer official information for the instruction date's calendar year; if unavailable, use the latest currently published official information and flag the year difference. Reuse verified school URLs from `assets/data/official_source_registry.json`, but revalidate stale facts. Every official fact needs its source URL. Unknown weights, DDLs, word counts or briefs remain pending.
 
 ## Output Routing
 
 Select exactly one contract from `references/output_contracts.md`:
 
+- `T00`: eight-item personalized planning report;
 - `T01`: standard annual academic plan;
 - `T02`: public-sector concise service-match plan;
 - `T03`: standalone planning-product quote sheet;
@@ -60,6 +61,7 @@ Read additional references only when required:
 5. Select one output contract and fill only its variable fields.
 6. Reuse fixed value modules and fixed labels from the contract/template; do not rewrite them.
 7. Generate the canonical HTML, export it to PDF and visually verify it. Keep the quote separate unless the user explicitly requests a merged file.
+8. Generate a structured warning report. If warnings exist, the conversation reply must include exactly: `亲爱的学业规划师，您好！此次方案生成存在【预警提示】：（预警提示内容）`.
 
 ## Non-Negotiable Rules
 
@@ -69,6 +71,7 @@ Read additional references only when required:
 - Planning prices and DP prices must never share a formula.
 - Client-facing text must not promise guaranteed grades or passing.
 - Fixed template labels, value modules and disclaimers are copied unchanged; only student/course/timeline/service variables are generated.
+- Never suppress ambiguity. Missing official facts, estimated workload, unmatched pricing matrix, unreviewed estimates, stale sources and out-of-scope requests must become warnings in both the artifact and the reply.
 
 ## Assets
 

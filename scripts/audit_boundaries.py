@@ -20,6 +20,12 @@ SECRET_PATTERNS = (
     re.compile(r"QUOTE_API_KEY\s*=\s*['\"]?(?!replace-with-|your-)[A-Za-z0-9_-]{20,}"),
     re.compile(r"X-API-Key\s*:\s*(?!\$|\{)[A-Za-z0-9_-]{20,}"),
 )
+APPROVED_DUPLICATE_GROUPS = {
+    frozenset({
+        "skills/jizhi-academic-year-plan-proposal/scripts/export_pdf.py",
+        "skills/dp-proposal-designer/scripts/export_pdf.py",
+    }),
+}
 
 
 def fail(message: str) -> None:
@@ -42,9 +48,16 @@ for name in EXPECTED:
 
 required_runtime = (
     SKILLS / "jizhi-academic-year-plan-proposal/assets/schemas/intake.schema.json",
+    SKILLS / "jizhi-academic-year-plan-proposal/assets/templates/template_contracts.json",
+    SKILLS / "jizhi-academic-year-plan-proposal/assets/data/official_source_registry.json",
     SKILLS / "jizhi-academic-year-plan-proposal/scripts/build_planning_proposal.py",
+    SKILLS / "jizhi-academic-year-plan-proposal/scripts/build_planning_quote.py",
+    SKILLS / "jizhi-academic-year-plan-proposal/scripts/export_pdf.py",
+    SKILLS / "jizhi-academic-year-plan-proposal/scripts/update_source_registry.py",
     SKILLS / "dp-proposal-designer/assets/schemas/intake.schema.json",
+    SKILLS / "dp-proposal-designer/assets/templates/template_contracts.json",
     SKILLS / "dp-proposal-designer/scripts/build_dp_proposal.py",
+    SKILLS / "dp-proposal-designer/scripts/export_pdf.py",
     SKILLS / "dp-product-new-customer-quote/assets/schemas/assessment_quote.schema.json",
     SKILLS / "dp-product-new-customer-quote/scripts/build_quote_workbook.py",
 )
@@ -88,9 +101,18 @@ for path in ROOT.rglob("*"):
 
 for paths in hashes.values():
     if len(paths) > 1:
-        fail("duplicate files: " + ", ".join(str(p.relative_to(ROOT)) for p in paths))
+        group = frozenset(str(p.relative_to(ROOT)) for p in paths)
+        if group not in APPROVED_DUPLICATE_GROUPS:
+            fail("duplicate files: " + ", ".join(sorted(group)))
 
-for forbidden in ("dp-customer-visual-proposal", "assets/pricing"):
+for forbidden in (
+    "dp-customer-visual-proposal",
+    "jizhi-academic-planning-report",
+    "jizhi-essay-customer-proposal",
+    "assets/pricing",
+    "极致服务组件价目表",
+    "陪跑报价测试",
+):
     if any(forbidden in str(path.relative_to(ROOT)) for path in ROOT.rglob("*")):
         fail(f"public package contains retired/private path: {forbidden}")
 

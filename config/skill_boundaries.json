@@ -1,8 +1,8 @@
 {
-  "version": "2.0.0",
+  "version": "2.2.0",
   "skills": {
     "jizhi-academic-year-plan-proposal": {
-      "owns": ["学业规划", "全年规划", "陪跑", "专业课配置", "AI智慧学习系统", "规划报价", "混合方案统筹"],
+      "owns": ["个性化学业规划报告", "学业规划", "全年规划", "陪跑", "专业课配置", "AI智慧学习系统", "规划报价", "客户学业方案", "混合方案统筹"],
       "excludes": ["纯DP方案", "DP最终报价"]
     },
     "dp-proposal-designer": {
@@ -15,5 +15,6 @@
     }
   },
   "mixed_owner": "jizhi-academic-year-plan-proposal",
-  "mixed_components": ["dp-proposal-designer", "dp-product-new-customer-quote"]
+  "mixed_components": ["dp-proposal-designer", "dp-product-new-customer-quote"],
+  "retired_competitors": ["dp-customer-visual-proposal", "jizhi-academic-planning-report", "jizhi-essay-customer-proposal"]
 }

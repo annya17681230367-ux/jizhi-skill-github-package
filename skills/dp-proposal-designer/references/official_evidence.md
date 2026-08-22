@@ -2,6 +2,8 @@
 
 Read only when programme/module facts must be researched or verified.
 
+Use the shared verified URL registry at `../jizhi-academic-year-plan-proposal/assets/data/official_source_registry.json` when the complete package is installed. The user instruction date determines the preferred calendar year. If that year's official information is unavailable, use the latest official university information and emit a year-mismatch warning. Every fact needs a source URL, source year and verification date.
+
 ## Source Priority
 
 1. Official programme page.

@@ -9,8 +9,8 @@
   "assessments": [
     {
       "course_code": "TEST1001", "course_name": "商业研究", "term": "S1", "assessment": "研究报告", "weight": "40%",
-      "official_workload": "2000字", "equivalent_words": 2000, "requirement": "个人报告", "risk": "中",
-      "evidence": "官方模块页", "source_url": "https://example.edu/module", "evidence_status": "已核实", "note": ""
+      "official_workload": "2000字", "equivalent_words": 2000, "workload_basis": "official", "review_status": "approved", "requirement": "个人报告", "risk": "中",
+      "matched_service": "DP报告管理", "evidence": "官方模块页", "source_url": "https://example.edu/module", "source_year": "2026", "verified_at": "2026-08-22", "evidence_status": "confirmed", "note": ""
     }
   ]
 }

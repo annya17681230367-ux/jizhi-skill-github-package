@@ -1,12 +1,12 @@
 # 极致学业规划与 DP Skills
 
-Version `2.1.0` fixes three independent product boundaries and adds executable, regression-tested generation paths.
+Version `2.2.0` fixes three independent product boundaries and adds executable, regression-tested generation paths.
 
 ## Three Skills
 
 | Skill | Owns | Must not own |
 |---|---|---|
-| `jizhi-academic-year-plan-proposal` | 学业规划、陪跑、专业课、AI智慧学习系统、年度时间轴及其报价 | 纯DP方案、DP最终报价 |
+| `jizhi-academic-year-plan-proposal` | 个性化学业规划报告、客户学业方案、全年/学期规划、陪跑、专业课、AI智慧学习系统及规划报价 | 纯DP方案、DP最终报价 |
 | `dp-proposal-designer` | 纯DP客户方案、固定价值模块、服务流程、DP风险与执行安排 | 最终DP价格、陪跑课时价格 |
 | `dp-product-new-customer-quote` | 官方Assessment工作量、密封DP报价、报价Excel | 方案叙事、年度规划、陪跑报价 |
 
@@ -20,7 +20,7 @@ cd jizhi-skill-github-package
 ./install.sh
 ```
 
-安装器只安装上述三个 skill，将旧版本备份到 `~/.codex/skill-backups/`，并自动隔离已废弃的 `dp-customer-visual-proposal` 入口。
+安装器只安装上述三个 skill，将旧版本备份到 `~/.codex/skill-backups/`，并自动隔离已废弃的 `dp-customer-visual-proposal`、`jizhi-academic-planning-report` 和 `jizhi-essay-customer-proposal` 入口。
 
 ## Deterministic Output
 
@@ -29,6 +29,8 @@ cd jizhi-skill-github-package
 3. Official assessment facts remain dynamic and source-backed.
 4. Final DP pricing is available only through the authorized quote helper.
 5. Example PDFs are visual references, not runtime instructions.
+6. Every proposal includes a fixed `课程与服务匹配` module and a machine-readable warning sidecar.
+7. Official facts prefer the request-year source, fall back to the latest official source, and retain the source URL.
 
 `scripts/route_request.py` is a regression-test and diagnostic helper. Actual Codex routing is controlled by the three non-overlapping `SKILL.md` descriptions.
 
@@ -55,6 +57,10 @@ python3 skills/dp-product-new-customer-quote/scripts/build_quote_workbook.py ass
 Without authorization, the skill may prepare assessment evidence but must not invent or finalize a price.
 
 The current quote API guarantees `final_price`. Original price and discount are displayed only when the authorized backend returns them; the public skill never reverse-engineers them.
+
+## Planning Quote Add-on
+
+陪跑/学业规划价格不放在公开仓库。内部人员另行安装 `jizhi-planning-pricing-private` 后，年度规划 Skill 才能通过 `build_planning_quote.py` 计算并追溯原价、折后价、输入指纹和预警。未安装时必须停止报价，不得猜价。
 
 ## Security
 

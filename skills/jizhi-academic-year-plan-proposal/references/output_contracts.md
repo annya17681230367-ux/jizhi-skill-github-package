@@ -2,10 +2,25 @@
 
 Select exactly one contract. Fixed labels and fixed value modules must be reused unchanged. Generate only fields marked `VARIABLE`.
 
+Every contract contains a compact `课程与服务匹配` module with: `课程名称 | 课程代码 | 课程考核形式 | 课程工作量 | 匹配服务`. Workload basis and warnings remain visible when not official.
+
+## T00 Personalized Eight-Item Planning Report
+
+Owner: `jizhi-academic-year-plan-proposal`.
+
+Fixed order:
+
+1. Student and target context.
+2. Eight items: 个人学业画像、核心问题诊断、目标差距分析、定制路径图、阶段行动节点、课程优先级、学业风险清单、执行与支持建议.
+3. 课程与服务匹配.
+4. Sources, pending materials and warnings.
+
+No quote unless the user separately requests T03.
+
 ## T01 Standard Annual Academic Plan
 
 Owner: `jizhi-academic-year-plan-proposal`.
-Template: `templates/fixed_cases/固定模板01_标准年度学业规划方案.pdf`.
+Program template key: `T01` in `assets/templates/template_contracts.json`.
 
 Fixed order:
 
@@ -24,7 +39,7 @@ No price appears in T01.
 ## T02 Public-Sector Concise Service-Match Plan
 
 Owner: `jizhi-academic-year-plan-proposal`.
-Template: `templates/fixed_cases/固定模板02_对公精简服务匹配方案.pdf`.
+Program template key: `T02` in `assets/templates/template_contracts.json`.
 
 Limit: 1-2 pages.
 
@@ -43,7 +58,7 @@ No logo, price, internal version label or long raw DDL wall unless explicitly re
 ## T03 Standalone Planning Quote
 
 Owner: annual skill using `pricing_quote_rules.md`.
-Template: `templates/fixed_cases/固定模板03_独立报价单.pdf`.
+Program template key: `T03` in `assets/templates/template_contracts.json`.
 
 Required fixed fields:
 
@@ -60,7 +75,7 @@ Do not include DP work. DP quotes belong to the DP quote skill.
 ## T05 Mixed DP + Planning Plan
 
 Owner: annual skill. DP content is supplied by `dp-proposal-designer`.
-Template: `templates/fixed_cases/固定模板05_DP加陪跑混合边界方案.pdf`.
+Program template key: `T05` in `assets/templates/template_contracts.json`.
 
 Fixed order:
 

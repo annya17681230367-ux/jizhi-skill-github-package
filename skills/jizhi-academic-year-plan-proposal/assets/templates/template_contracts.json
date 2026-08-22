@@ -1,0 +1,7 @@
+{
+  "T00": {"label": "个性化学业规划报告", "max_pages": 6, "sections": ["context", "eight_items", "course_service_match", "sources_warnings"]},
+  "T01": {"label": "标准年度学业规划方案", "max_pages": 8, "sections": ["context", "six_items", "course_service_match", "timeline", "execution", "ai", "team", "sources_warnings"]},
+  "T02": {"label": "对公精简服务匹配方案", "max_pages": 2, "sections": ["context", "course_service_match", "timeline", "execution", "ai", "effects_warnings"], "logo": false, "price": false},
+  "T03": {"label": "独立报价单", "max_pages": 2, "sections": ["context", "course_service_match", "quote", "audit_warnings"]},
+  "T05": {"label": "DP加陪跑混合边界方案", "max_pages": 4, "sections": ["context", "course_service_match", "product_boundary", "timeline", "separate_quotes", "warnings"]}
+}

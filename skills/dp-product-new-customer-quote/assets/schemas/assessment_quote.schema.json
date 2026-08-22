@@ -6,6 +6,13 @@
   "properties": {
     "school": {"type": "string"}, "program": {"type": "string"}, "degree_level": {"type": "string"},
     "target_year": {"type": "string"}, "scope": {"type": "string"}, "package_type": {"type": "string"}, "target_score": {"type": "string"},
-    "assessments": {"type": "array", "items": {"type": "object", "required": ["course_code", "course_name", "term", "assessment", "weight", "official_workload", "equivalent_words", "source_url", "evidence_status"]}}
+    "assessments": {"type": "array", "items": {"type": "object", "required": ["course_code", "course_name", "term", "assessment", "weight", "official_workload", "equivalent_words", "workload_basis", "review_status", "source_url", "source_year", "evidence_status"], "properties": {
+      "workload_basis": {"enum": ["official", "customer_supplied", "model_estimate"]},
+      "review_status": {"enum": ["approved", "pending"]},
+      "source_year": {"type": "string"},
+      "matched_service": {"type": "string"}
+    }}},
+    "reviewer": {"type": "string"},
+    "warnings": {"type": "array", "items": {"type": "string"}}
   }
 }

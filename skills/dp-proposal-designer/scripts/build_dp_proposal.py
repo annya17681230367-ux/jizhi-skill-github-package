@@ -6,6 +6,8 @@ import html
 import json
 from pathlib import Path
 
+WARNING_PREFIX = "亲爱的学业规划师，您好！此次方案生成存在【预警提示】："
+
 
 def esc(value):
     return html.escape(str(value or ""))
@@ -32,10 +34,15 @@ def fixed_list(title, items):
 
 
 def render(data, fixed):
+    warnings = list(data.get("warnings", []))
+    for course in data.get("courses", []):
+        if course.get("workload_basis") in {"model_estimate", "pending"} or not course.get("workload"):
+            warnings.append(f"{course.get('code', '未知课程')}课程工作量需人工确认")
+    warnings = list(dict.fromkeys(x for x in warnings if x))
     risks = cards(data.get("risks", []), "card risk")
     course_rows = rows(
         data.get("courses", []),
-        ("code", "name", "assessment", "priority", "service_focus"),
+        ("name", "code", "assessment", "workload", "service_focus"),
     )
     timeline_rows = rows(
         data.get("timeline", []),
@@ -47,6 +54,11 @@ def render(data, fixed):
     assurance = fixed_list(fixed["assurance_process_title"], fixed["assurance_process"])
     team = fixed_list(fixed["team_title"], fixed["team"])
     boundary = fixed_list("服务范围边界", fixed["scope_boundary"])
+    warning_html = ""
+    if warnings:
+        warning_html = f'<section class="warning"><h2>预警提示</h2><p><b>{esc(WARNING_PREFIX)}</b></p><ul>{"".join(f"<li>{esc(x)}</li>" for x in warnings)}</ul></section>'
+    contract = data.get("contract", "D01")
+    situation_html = "" if contract == "D02" else f'<section><h2>你的情况</h2>{situation}</section><section><h2>核心风险</h2><div class="grid">{risks}</div></section>'
 
     return f"""<!doctype html>
 <html lang="zh-CN">
@@ -65,22 +77,22 @@ header{{background:#eef6ff}} h1{{font-size:34px;line-height:1.25;margin:12px 0}}
 .fixed-list{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:0;list-style:none}} .fixed-list li{{padding:12px;border-left:4px solid var(--cyan);background:#f3fffd}}
 .quote{{font-size:24px;font-weight:700;color:var(--blue)}} footer{{padding:24px 44px;color:var(--muted);font-size:12px}}
 @media(max-width:760px){{header,section{{padding:24px 20px}}.grid,.fixed-list{{grid-template-columns:1fr}}table{{font-size:12px}}}}
-@media print{{body{{background:#fff}}main{{max-width:none}}section,table,.card{{break-inside:avoid}}}}
+    .warning{{background:#fff8e8;border-left:5px solid #f59e0b}} @media print{{body{{background:#fff}}main{{max-width:none}}section,table,.card{{break-inside:avoid}}}}
 </style>
 </head>
 <body><main>
 <header>
-  <div class="eyebrow">DP ACADEMIC SUPPORT · {esc(data.get('version_status'))}</div>
+  <div class="eyebrow">DP ACADEMIC SUPPORT</div>
   <h1>{esc(data.get('school'))}<br>{esc(data.get('program'))} DP服务方案</h1>
   <div class="tags"><span class="tag">{esc(data.get('target_year'))}</span><span class="tag">目标：{esc(data.get('target_score'))}</span><span class="tag">{esc(data.get('product'))}</span><span class="tag">范围：{esc(data.get('scope'))}</span></div>
 </header>
-<section><h2>你的情况</h2>{situation}</section>
-<section><h2>核心风险</h2><div class="grid">{risks}</div></section>
-<section><h2>课程考核与服务重点</h2><table><thead><tr><th>课程</th><th>名称</th><th>考核</th><th>优先级</th><th>DP服务重点</th></tr></thead><tbody>{course_rows}</tbody></table></section>
+{situation_html}
+<section><h2>课程与服务匹配</h2><table><thead><tr><th>课程名称</th><th>课程代码</th><th>课程考核形式</th><th>课程工作量</th><th>匹配服务</th></tr></thead><tbody>{course_rows}</tbody></table></section>
 {core_value}{assurance}
 <section><h2>执行时间轴</h2><table><thead><tr><th>阶段</th><th>时间</th><th>执行动作</th><th>学生需提供</th></tr></thead><tbody>{timeline_rows}</tbody></table></section>
 {team}{boundary}
 <section><h2>报价状态与下一步</h2><p class="quote">{esc(data.get('quote_status', '待报价确认'))}</p><ul>{materials}</ul></section>
+{warning_html}
 <footer>最终执行以学生提供的最新brief、rubric、课程平台信息和学校要求为准。</footer>
 </main></body></html>"""
 
@@ -100,6 +112,11 @@ def main():
     if errors:
         raise SystemExit("Invalid intake: " + ", ".join(errors))
     Path(args.output_html).write_text(render(data, fixed), encoding="utf-8")
+    warnings = list(data.get("warnings", []))
+    for course in data.get("courses", []):
+        if course.get("workload_basis") in {"model_estimate", "pending"} or not course.get("workload"):
+            warnings.append(f"{course.get('code', '未知课程')}课程工作量需人工确认")
+    Path(args.output_html + ".warnings.json").write_text(json.dumps({"prefix": WARNING_PREFIX, "warnings": list(dict.fromkeys(warnings))}, ensure_ascii=False, indent=2), encoding="utf-8")
     print(args.output_html)
 
 

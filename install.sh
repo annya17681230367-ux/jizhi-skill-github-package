@@ -6,7 +6,7 @@ CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
 SKILLS_DIR="$CODEX_HOME/skills"
 BACKUP_DIR="$CODEX_HOME/skill-backups/$(date +%Y%m%d-%H%M%S)"
 EXPECTED=(dp-product-new-customer-quote dp-proposal-designer jizhi-academic-year-plan-proposal)
-RETIRED=(dp-customer-visual-proposal)
+RETIRED=(dp-customer-visual-proposal jizhi-academic-planning-report jizhi-essay-customer-proposal)
 
 mkdir -p "$SKILLS_DIR"
 for name in "${RETIRED[@]}"; do
@@ -32,10 +32,5 @@ for name in "${EXPECTED[@]}"; do
   cp -R "$source_dir" "$target"
   cmp "$source_dir/SKILL.md" "$target/SKILL.md"
   echo "Installed $name -> $target"
-done
-for name in jizhi-academic-planning-report jizhi-essay-customer-proposal; do
-  if [ -e "$SKILLS_DIR/$name" ]; then
-    echo "Notice: $name remains installed as a separate product; use explicit product wording when invoking skills."
-  fi
 done
 echo "Installed exactly ${#EXPECTED[@]} skills. Restart Codex or start a new task."

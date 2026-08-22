@@ -10,9 +10,12 @@
     "target_year": {"type": "string"}, "scope": {"type": "string"}, "target_score": {"type": "string"}, "product": {"type": "string"},
     "situation": {"type": "array", "items": {"type": "string"}},
     "risks": {"type": "array", "items": {"type": "object"}},
-    "courses": {"type": "array", "items": {"type": "object"}},
+    "courses": {"type": "array", "items": {"type": "object", "required": ["code", "name", "assessment", "workload", "service_focus"], "properties": {
+      "workload_basis": {"enum": ["official", "customer_supplied", "model_estimate", "pending"]}
+    }}},
     "timeline": {"type": "array", "items": {"type": "object"}},
     "materials_required": {"type": "array", "items": {"type": "string"}},
-    "quote_status": {"type": "string"}
+    "quote_status": {"type": "string"},
+    "warnings": {"type": "array", "items": {"type": "string"}}
   }
 }

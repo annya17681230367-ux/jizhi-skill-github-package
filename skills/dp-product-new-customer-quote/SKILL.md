@@ -26,7 +26,7 @@ If module coverage or target level would change workload materially, stop and re
 
 1. Research official university sources for the target year. Record source URL and source year beside every assessment fact.
 2. Build one row per assessment component using `assets/schemas/assessment_quote.schema.json`: course code and name, term, assessment type, weight, official workload, quote-equivalent words, requirement, risk, evidence, source and note.
-3. Convert workload only when needed for the quote payload. Use the conversion policy returned by the authorized quote service or the approved internal input; do not invent private pricing logic in this skill.
+3. Record workload basis as official, customer supplied or model estimate. Model estimates are allowed only with `人工审核状态=待审核`; a reviewer may approve them without pretending they are official facts. Assessment-type conversion remains an unresolved business rule and must generate a warning.
 4. Validate the final covered rows and total workload.
 5. Build the complete quote workbook. Use `--request-quote` only on an authorized machine:
 
@@ -37,6 +37,7 @@ python3 scripts/build_quote_workbook.py assessment.json quote.xlsx --request-quo
 For internal review without an API call, omit `--request-quote`; the workbook will show `待授权报价`. If any covered row changes, invalidate the old quote and call again.
 
 6. Produce the selected contract in [output_contracts.md](references/output_contracts.md).
+7. Bind the price to an input fingerprint, source snapshot, workload total, quote time and review status. A changed input invalidates the prior price.
 
 ## Hard Stops
 
@@ -44,6 +45,8 @@ For internal review without an API call, omit `--request-quote`; the workbook wi
 - Missing `QUOTE_API_BASE`, `QUOTE_API_KEY`, or `final_price`: do not produce a final price.
 - Never print, embed, upload, or explain API credentials, endpoint URLs, paid rules, intermediate pricing formulas, or raw backend responses containing private fields.
 - Client output is Chinese by default and shows only package, coverage, original price when returned, discount price, and a short non-technical note.
+- Every workbook includes `课程与服务匹配`: course code, course name, assessment form, workload and matched service.
+- Any estimate, missing source, unbound quote or pending human review emits: `亲爱的学业规划师，您好！此次方案生成存在【预警提示】：` followed by the actual warning.
 
 ## Delivery Check
 
