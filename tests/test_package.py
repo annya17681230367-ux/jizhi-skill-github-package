@@ -39,18 +39,22 @@ class PackageTests(unittest.TestCase):
             run(PYTHON, script, FIXTURES/"annual.json", b)
             self.assertEqual(hashlib.sha256(a.read_bytes()).digest(), hashlib.sha256(b.read_bytes()).digest())
             text = a.read_text(encoding="utf-8")
-            for label in ("学业规划模块", "课程与服务匹配", "AI智慧学习系统", "每日 / 每周 / 每月执行"):
+            for label in ("六大学业规划模块", "课程与服务匹配", "AI智慧学习系统", "每日", "每周", "每月"):
                 self.assertIn(label, text)
+            for internal in ("来源、边界", "预警提示", "报价追溯", "审核状态", "亲爱的学业规划师"):
+                self.assertNotIn(internal, text)
+            self.assertTrue(Path(str(a) + ".internal.html").exists())
+            self.assertTrue(Path(str(a) + ".internal.json").exists())
 
     def test_annual_contracts_are_distinct(self):
         with tempfile.TemporaryDirectory() as tmp:
             base = json.loads((FIXTURES/"annual.json").read_text(encoding="utf-8"))
             expected = {
-                "T00": "学业规划模块",
-                "T01": "每日 / 每周 / 每月执行",
-                "T02": "学生情况与服务定位",
-                "T03": "报价追溯ID",
-                "T05": "产品责任边界",
+                "T00": "个性化学业规划报告",
+                "T01": "AI智慧学习系统",
+                "T02": "课程考核与服务安排",
+                "T03": "服务报价",
+                "T05": "DP与学业规划服务分工",
             }
             outputs = []
             for contract, marker in expected.items():
@@ -65,6 +69,10 @@ class PackageTests(unittest.TestCase):
                 text = output.read_text(encoding="utf-8")
                 self.assertIn(marker, text)
                 self.assertIn("课程与服务匹配", text)
+                self.assertNotIn("审核状态", text)
+                self.assertNotIn("预警提示", text)
+                internal = Path(str(output) + ".internal.html").read_text(encoding="utf-8")
+                self.assertIn("内部审核附件", internal)
                 outputs.append(hashlib.sha256(output.read_bytes()).hexdigest())
             self.assertEqual(len(set(outputs)), len(expected))
 
@@ -79,6 +87,10 @@ class PackageTests(unittest.TestCase):
             self.assertNotIn("v2 官网检索版", text)
             self.assertIn("课程与服务匹配", text)
             self.assertIn("DP安心包核心价值", text)
+            self.assertNotIn("预警提示", text)
+            self.assertNotIn("报价状态", text)
+            self.assertTrue(Path(str(a) + ".internal.html").exists())
+            self.assertIn("DP内部审核附件", Path(str(a) + ".internal.html").read_text(encoding="utf-8"))
 
     def test_dp_mixed_module_contract(self):
         with tempfile.TemporaryDirectory() as tmp:

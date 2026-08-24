@@ -52,14 +52,16 @@ Read `references/brand_visual_guidelines.md` only for branded HTML/PDF output. R
 5. Select one output contract and fill only dynamic fields.
 6. Reuse fixed value, assurance, process and team modules without rewriting.
 7. If a price is requested, hand the final assessment workload to `dp-product-new-customer-quote`; do not calculate it here.
-8. Render and visually verify the final PDF.
+8. Render two strictly separated artifacts: a clean client HTML/PDF and the same-name `.internal.html/.internal.json` audit attachment. Export only the clean client HTML to PDF.
 9. Add `课程与服务匹配` for every covered course: course code, course name, assessment form, workload and matched DP service.
-10. If any fact, workload or scope is estimated/unreviewed, emit the warning block and use this exact reply prefix: `亲爱的学业规划师，您好！此次方案生成存在【预警提示】：`.
+10. If any fact, workload or scope is estimated/unreviewed, keep it in the internal attachment and use this exact reply prefix: `亲爱的学业规划师，您好！此次方案生成存在【预警提示】：`.
 
 ## Hard Rules
 
 - DP scope and exam/test/quiz coaching remain separate.
 - Client pages show no internal pricing formula, margin, negotiation strategy or internal version label.
+- Client pages also show no source list, boundary note, warning block, quote status, trace ID or audit status.
 - Do not promise guaranteed passing, guaranteed grades, zero risk,代考 or detection avoidance.
 - A proposal with unknown brief/rubric/DDL remains a draft and lists required materials.
 - Fixed value modules remain identical across equivalent proposals; customization belongs in student diagnosis, course map, risks, timeline and service focus.
+- D01 follows fixed case 06. D02 is a compact module for fixed case 05 and must not expand into the full D01 layout.

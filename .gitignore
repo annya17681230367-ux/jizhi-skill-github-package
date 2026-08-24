@@ -1,4 +1,6 @@
 .DS_Store
+output/
+tmp/
 .env
 *.zip
 *.inspect.ndjson

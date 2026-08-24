@@ -60,8 +60,8 @@ Read additional references only when required:
 4. Apply standard hours from `service_packages.yaml`, unless custom mode is explicit.
 5. Select one output contract and fill only its variable fields.
 6. Reuse fixed value modules and fixed labels from the contract/template; do not rewrite them.
-7. Generate the canonical HTML, export it to PDF and visually verify it. Keep the quote separate unless the user explicitly requests a merged file.
-8. Generate a structured warning report. If warnings exist, the conversation reply must include exactly: `亲爱的学业规划师，您好！此次方案生成存在【预警提示】：（预警提示内容）`.
+7. Generate two strictly separated artifacts: the clean client HTML/PDF and the same-name `.internal.html/.internal.json` audit attachment. Export only the clean client HTML to the customer PDF.
+8. Put sources, missing facts, model estimates, warnings, contract/version identifiers, quote trace and review status only in the internal attachment. If warnings exist, the conversation reply must include exactly: `亲爱的学业规划师，您好！此次方案生成存在【预警提示】：（预警提示内容）`.
 
 ## Non-Negotiable Rules
 
@@ -71,7 +71,9 @@ Read additional references only when required:
 - Planning prices and DP prices must never share a formula.
 - Client-facing text must not promise guaranteed grades or passing.
 - Fixed template labels, value modules and disclaimers are copied unchanged; only student/course/timeline/service variables are generated.
-- Never suppress ambiguity. Missing official facts, estimated workload, unmatched pricing matrix, unreviewed estimates, stale sources and out-of-scope requests must become warnings in both the artifact and the reply.
+- Never place internal sources, boundary notes, warnings, version labels, quote trace IDs or review status in the client artifact.
+- Never suppress ambiguity. Missing official facts, estimated workload, unmatched pricing matrix, unreviewed estimates, stale sources and out-of-scope requests must become warnings in the internal audit artifact and the reply.
+- Visual routing is fixed: T01 follows fixed case 01, T02 case 02, T03 case 03 and T05 case 05. Do not replace them with a generic long-form document.
 
 ## Assets
 
