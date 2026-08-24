@@ -25,6 +25,11 @@ APPROVED_DUPLICATE_GROUPS = {
         "skills/jizhi-academic-year-plan-proposal/scripts/export_pdf.py",
         "skills/dp-proposal-designer/scripts/export_pdf.py",
     }),
+    # Each proposal skill must remain independently installable with its client-facing IP asset.
+    frozenset({
+        "skills/jizhi-academic-year-plan-proposal/assets/ip/study-dashboard.jpg",
+        "skills/dp-proposal-designer/assets/ip/study-dashboard.jpg",
+    }),
 }
 
 

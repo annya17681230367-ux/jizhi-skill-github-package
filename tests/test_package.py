@@ -71,6 +71,11 @@ class PackageTests(unittest.TestCase):
                 self.assertIn("课程与服务匹配", text)
                 self.assertNotIn("审核状态", text)
                 self.assertNotIn("预警提示", text)
+                self.assertNotIn('class="contract-label"', text)
+                if contract in {"T00", "T01", "T05"}:
+                    self.assertIn('class="ip-hero"', text)
+                else:
+                    self.assertNotIn('class="ip-hero"', text)
                 internal = Path(str(output) + ".internal.html").read_text(encoding="utf-8")
                 self.assertIn("内部审核附件", internal)
                 outputs.append(hashlib.sha256(output.read_bytes()).hexdigest())
@@ -89,6 +94,7 @@ class PackageTests(unittest.TestCase):
             self.assertIn("DP安心包核心价值", text)
             self.assertNotIn("预警提示", text)
             self.assertNotIn("报价状态", text)
+            self.assertIn('class="ip-hero"', text)
             self.assertTrue(Path(str(a) + ".internal.html").exists())
             self.assertIn("DP内部审核附件", Path(str(a) + ".internal.html").read_text(encoding="utf-8"))
 
@@ -102,6 +108,7 @@ class PackageTests(unittest.TestCase):
             text = output.read_text(encoding="utf-8")
             self.assertIn("课程与服务匹配", text)
             self.assertNotIn("你的情况", text)
+            self.assertNotIn('class="ip-hero"', text)
 
     def test_quote_workbook(self):
         with tempfile.TemporaryDirectory() as tmp:
