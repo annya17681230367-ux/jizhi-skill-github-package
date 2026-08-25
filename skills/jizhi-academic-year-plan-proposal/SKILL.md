@@ -60,8 +60,9 @@ Read additional references only when required:
 4. Apply standard hours from `service_packages.yaml`, unless custom mode is explicit.
 5. Select one output contract and fill only its variable fields.
 6. Reuse fixed value modules and fixed labels from the contract/template; do not rewrite them.
-7. Generate two strictly separated artifacts: the clean client HTML/PDF and the same-name `.internal.html/.internal.json` audit attachment. Export only the clean client HTML to the customer PDF.
-8. Put sources, missing facts, model estimates, warnings, contract/version identifiers, quote trace and review status only in the internal attachment. If warnings exist, the conversation reply must include exactly: `亲爱的学业规划师，您好！此次方案生成存在【预警提示】：（预警提示内容）`.
+7. Generate the clean client HTML with `build_planning_proposal.py`, then export only that HTML through `export_pdf.py` using HeadlessChrome/Skia. Do not rebuild the customer layout with ReportLab.
+8. `export_pdf.py` must create rendered PNG pages and a same-name `.preflight.json`. Inspect every PNG, then run `preflight_pdf.py ... --visual-reviewed`. Do not deliver unless `preflight_pass=true`.
+9. Generate the same-name `.internal.html/.internal.json` audit attachment. Put sources, missing facts, model estimates, warnings, contract/version identifiers, quote trace and review status only in the internal attachment. If warnings exist, the conversation reply must include exactly: `亲爱的学业规划师，您好！此次方案生成存在【预警提示】：（预警提示内容）`.
 
 ## Non-Negotiable Rules
 
@@ -74,6 +75,8 @@ Read additional references only when required:
 - Never place internal sources, boundary notes, warnings, version labels, quote trace IDs or review status in the client artifact.
 - Never suppress ambiguity. Missing official facts, estimated workload, unmatched pricing matrix, unreviewed estimates, stale sources and out-of-scope requests must become warnings in the internal audit artifact and the reply.
 - Visual routing is fixed: T01 follows fixed case 01, T02 case 02, T03 case 03 and T05 case 05. Do not replace them with a generic long-form document.
+- The customer PDF is incomplete until its `.preflight.json` says `preflight_pass=true`. Wrong page count, missing font contract, missing rendered PNGs, unreviewed PNGs, internal evidence leakage, forbidden price leakage or guaranteed-grade claims are hard failures.
+- Every final delivery reply must reproduce `acceptance_declaration` from the passing preflight file. Missing this declaration means the delivery is incomplete.
 
 ## Assets
 

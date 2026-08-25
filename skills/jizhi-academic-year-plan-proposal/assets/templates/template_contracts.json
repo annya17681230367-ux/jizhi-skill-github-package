@@ -1,7 +1,7 @@
 {
-  "T00": {"label": "个性化学业规划报告", "max_pages": 4, "client_sections": ["context", "eight_items", "course_service_match"], "internal_sections": ["sources", "warnings", "audit"]},
-  "T01": {"label": "标准年度学业规划方案", "max_pages": 2, "client_sections": ["context", "six_items", "course_service_match", "timeline", "execution", "ai", "team"], "internal_sections": ["sources", "warnings", "audit"]},
-  "T02": {"label": "对公精简服务匹配方案", "max_pages": 1, "client_sections": ["context", "course_service_match", "timeline", "execution", "ai"], "internal_sections": ["sources", "warnings", "audit"], "logo": false, "price": false},
-  "T03": {"label": "独立报价单", "max_pages": 1, "client_sections": ["context", "course_service_match", "confirmed_quote"], "internal_sections": ["quote_trace", "warnings", "audit"]},
-  "T05": {"label": "DP加陪跑混合边界方案", "max_pages": 1, "client_sections": ["context", "course_service_match", "product_boundary", "timeline", "confirmed_quote"], "internal_sections": ["separate_quote_traces", "warnings", "audit"]}
+  "T00": {"label": "个性化学业规划报告", "fixed_case": "T00固定个性化报告生成器", "min_pages": 1, "max_pages": 4, "client_sections": ["context", "eight_items", "course_service_match"], "internal_sections": ["sources", "warnings", "audit"]},
+  "T01": {"label": "标准年度学业规划方案", "fixed_case": "固定模板01", "min_pages": 2, "max_pages": 2, "client_sections": ["context", "six_items", "course_service_match", "timeline", "execution", "ai", "team"], "internal_sections": ["sources", "warnings", "audit"]},
+  "T02": {"label": "对公精简服务匹配方案", "fixed_case": "固定模板02", "min_pages": 1, "max_pages": 1, "client_sections": ["context", "course_service_match", "timeline", "execution", "ai"], "internal_sections": ["sources", "warnings", "audit"], "logo": false, "price": false},
+  "T03": {"label": "独立报价单", "fixed_case": "固定模板03", "min_pages": 1, "max_pages": 1, "client_sections": ["context", "course_service_match", "confirmed_quote"], "internal_sections": ["quote_trace", "warnings", "audit"]},
+  "T05": {"label": "DP加陪跑混合边界方案", "fixed_case": "固定模板05", "min_pages": 1, "max_pages": 1, "client_sections": ["context", "course_service_match", "product_boundary", "timeline", "confirmed_quote"], "internal_sections": ["separate_quote_traces", "warnings", "audit"]}
 }

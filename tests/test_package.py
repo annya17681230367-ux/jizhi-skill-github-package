@@ -81,6 +81,25 @@ class PackageTests(unittest.TestCase):
                 outputs.append(hashlib.sha256(output.read_bytes()).hexdigest())
             self.assertEqual(len(set(outputs)), len(expected))
 
+    def test_t01_preflight_requires_visual_review(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            html = Path(tmp) / "t01.html"
+            pdf = Path(tmp) / "t01.pdf"
+            fixed_pdf = ROOT / "skills/jizhi-academic-year-plan-proposal/templates/fixed_cases/固定模板01_标准年度学业规划方案.pdf"
+            pdf.write_bytes(fixed_pdf.read_bytes())
+            run(PYTHON, "skills/jizhi-academic-year-plan-proposal/scripts/build_planning_proposal.py", FIXTURES/"annual.json", html)
+            script = "skills/jizhi-academic-year-plan-proposal/scripts/preflight_pdf.py"
+            pending = run(PYTHON, script, html, pdf, check=False)
+            self.assertEqual(pending.returncode, 2)
+            self.assertFalse(json.loads(pdf.with_suffix(".preflight.json").read_text(encoding="utf-8"))["preflight_pass"])
+            passed = run(PYTHON, script, html, pdf, "--visual-reviewed")
+            result = json.loads(passed.stdout)
+            self.assertTrue(result["preflight_pass"])
+            self.assertEqual(result["contract"], "T01")
+            self.assertEqual(result["fixed_case"], "固定模板01")
+            self.assertEqual(result["pages"], 2)
+            self.assertIn("已通过交付门禁", result["acceptance_declaration"])
+
     def test_dp_proposal_deterministic(self):
         with tempfile.TemporaryDirectory() as tmp:
             a, b = Path(tmp)/"a.html", Path(tmp)/"b.html"

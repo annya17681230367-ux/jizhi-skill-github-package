@@ -2,7 +2,7 @@
 
 Select exactly one contract. Fixed labels and fixed value modules must be reused unchanged. Generate only fields marked `VARIABLE`.
 
-Every contract contains a compact `课程与服务匹配` module with: `课程名称 | 课程代码 | 课程考核形式 | 课程工作量 | 匹配服务`. Workload basis and warnings remain visible when not official.
+Every contract contains a compact `课程与服务匹配` module with: `课程名称 | 课程代码 | 课程考核形式 | 课程工作量 | 匹配服务`. Workload basis, warnings and official source details remain in the internal audit artifact.
 
 ## T00 Personalized Eight-Item Planning Report
 
@@ -13,7 +13,7 @@ Fixed order:
 1. Student and target context.
 2. Eight items: 个人学业画像、核心问题诊断、目标差距分析、定制路径图、阶段行动节点、课程优先级、学业风险清单、执行与支持建议.
 3. 课程与服务匹配.
-4. Sources, pending materials and warnings.
+4. Internal-only sources, pending materials and warnings.
 
 No quote unless the user separately requests T03.
 
@@ -32,9 +32,11 @@ Fixed order:
 6. Daily/weekly/monthly execution - fixed service logic, VARIABLE dates/tasks.
 7. AI智慧学习系统 - fixed positioning/functions, VARIABLE course examples.
 8. Team roles and expected effect - fixed roles, VARIABLE student-specific effect.
-9. Sources, pending materials and disclaimer - VARIABLE sources/missing facts.
+9. Internal-only sources, pending materials and disclaimer - VARIABLE sources/missing facts.
 
 No price appears in T01.
+
+Hard gate: fixed case 01, exactly 2 pages, PingFang SC CSS stack, complete logo and unobstructed IP on page 1, course/timeline/AI execution modules on page 2, and passing `.preflight.json` after PNG review.
 
 ## T02 Public-Sector Concise Service-Match Plan
 

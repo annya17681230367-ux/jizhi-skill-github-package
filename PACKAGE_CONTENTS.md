@@ -13,6 +13,7 @@
   - `assets/data/official_source_registry.json`: verified official URL cache
   - `scripts/build_planning_proposal.py`: deterministic HTML renderer
   - `scripts/export_pdf.py`: verified HTML-to-PDF exporter
+  - `scripts/preflight_pdf.py`: mandatory page/font/evidence/client-boundary/render gate
   - `scripts/build_planning_quote.py`: private pricing add-on interface
   - `scripts/update_source_registry.py`: official URL cache updater
   - `templates/fixed_cases/`: annual, public-sector, quote, Excel, and mixed visual references

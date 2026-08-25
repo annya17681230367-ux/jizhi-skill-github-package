@@ -61,6 +61,7 @@ required_runtime = (
     SKILLS / "jizhi-academic-year-plan-proposal/scripts/build_planning_proposal.py",
     SKILLS / "jizhi-academic-year-plan-proposal/scripts/build_planning_quote.py",
     SKILLS / "jizhi-academic-year-plan-proposal/scripts/export_pdf.py",
+    SKILLS / "jizhi-academic-year-plan-proposal/scripts/preflight_pdf.py",
     SKILLS / "jizhi-academic-year-plan-proposal/scripts/update_source_registry.py",
     SKILLS / "dp-proposal-designer/assets/schemas/intake.schema.json",
     SKILLS / "dp-proposal-designer/assets/templates/template_contracts.json",
