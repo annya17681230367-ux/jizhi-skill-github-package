@@ -13,11 +13,12 @@ import sys
 from pathlib import Path
 
 CONTRACTS = {
-    "T00": {"fixed_case": "T00固定个性化报告生成器", "min_pages": 1, "max_pages": 4},
+    "T00": {"fixed_case": "固定模板00", "min_pages": 2, "max_pages": 2},
     "T01": {"fixed_case": "固定模板01", "min_pages": 2, "max_pages": 2},
     "T02": {"fixed_case": "固定模板02", "min_pages": 1, "max_pages": 1},
     "T03": {"fixed_case": "固定模板03", "min_pages": 1, "max_pages": 1},
     "T05": {"fixed_case": "固定模板05", "min_pages": 1, "max_pages": 1},
+    "D01": {"fixed_case": "固定模板06", "min_pages": 3, "max_pages": 3},
 }
 FONT_STACK = '-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif'
 INTERNAL_MARKERS = ("内部审核附件", "官方来源", "审核状态", "报价追溯", "亲爱的学业规划师", "模型估算")
@@ -26,6 +27,16 @@ T01_MARKERS = (
     "ACADEMIC PLANNING", "学业画像与年度目标", "六大学业规划模块", "COURSE MATCH",
     "EXECUTION ROADMAP", "AI智慧学习系统", "每日", "每周", "每月", "配套团队",
 )
+REQUIRED_MARKERS = {
+    "T00": ("ACADEMIC PLANNING", "个性化学业规划报告", "课程与服务匹配"),
+    "T01": T01_MARKERS,
+    "T02": ("课程考核与服务安排", "课程与服务匹配", "AI智慧学习系统"),
+    "T03": ("课程与服务匹配", "服务报价", "原价", "折后价"),
+    "T05": ("DP与学业规划服务分工", "课程与服务匹配"),
+    "D01": ("DP ACADEMIC SUPPORT", "学生情况与核心风险", "课程与服务匹配", "DP安心包核心价值", "DP保障流程", "执行时间轴", "服务团队与质量控制", "启动所需资料"),
+}
+IP_REQUIRED = {"T00", "T01", "T05", "D01"}
+NO_PRICE = {"T00", "T01", "T02", "D01"}
 
 
 def runtime_python():
@@ -46,7 +57,7 @@ def ensure_pypdf():
 
 
 def infer_contract(html_text):
-    match = re.search(r'<main class="contract-(T\d{2})">', html_text)
+    match = re.search(r'<main class="contract-([TD]\d{2})"', html_text)
     return match.group(1) if match else ""
 
 
@@ -99,7 +110,7 @@ def main():
     rule = CONTRACTS.get(contract)
     checks = {}
     checks["contract_confirmed"] = bool(rule)
-    checks["fixed_generator_used"] = "contract-" + contract in html_text if contract else False
+    checks["fixed_generator_used"] = bool(rule) and f'data-fixed-template="{rule["fixed_case"]}"' in html_text
     checks["pdf_nonempty"] = pdf_path.exists() and pdf_path.stat().st_size >= 1000
 
     pages = len(PdfReader(str(pdf_path)).pages) if checks["pdf_nonempty"] else 0
@@ -112,7 +123,7 @@ def main():
     checks["internal_content_absent"] = not any(marker in html_text for marker in INTERNAL_MARKERS)
     checks["guaranteed_grade_claim_absent"] = not any(re.search(pattern, html_text) for pattern in GUARANTEE_PATTERNS)
     price_present = any(marker in html_text for marker in ("服务报价", "折后价", "原价"))
-    checks["price_boundary"] = not price_present if contract in {"T00", "T01", "T02"} else True
+    checks["price_boundary"] = not price_present if contract in NO_PRICE else True
 
     internal_path = Path(str(html_path) + ".internal.json")
     internal = json.loads(internal_path.read_text(encoding="utf-8")) if internal_path.exists() else {}
@@ -120,10 +131,9 @@ def main():
     checks["official_evidence"] = bool(sources) and all(str(item.get("url", "")).startswith(("http://", "https://")) for item in sources)
     checks["internal_sources_separated"] = internal_path.exists() and bool(sources)
 
-    if contract == "T01":
-        checks["t01_required_sections"] = all(marker in html_text for marker in T01_MARKERS)
-        checks["t01_logo"] = 'class="logo"' in html_text
-        checks["t01_ip"] = 'class="ip-hero"' in html_text and not any(x in html_text for x in ("mask:", "clip-path:", "filter:brightness", "opacity:0"))
+    checks["required_sections"] = bool(rule) and all(marker in html_text for marker in REQUIRED_MARKERS[contract])
+    checks["ip_policy"] = ('class="ip-hero"' in html_text and not any(x in html_text for x in ("mask:", "clip-path:", "filter:brightness", "opacity:0"))) if contract in IP_REQUIRED else 'class="ip-hero"' not in html_text
+    checks["logo_policy"] = 'class="logo"' in html_text if contract in {"T00", "T01", "T03", "T05"} else 'class="logo"' not in html_text
 
     render_dir = pdf_path.with_suffix(".render")
     images, render_error = render_pngs(pdf_path, render_dir) if checks["pdf_nonempty"] else ([], "pdf_missing")
@@ -131,7 +141,7 @@ def main():
     checks["render_qa"] = checks["rendered_pngs"] and args.visual_reviewed
 
     preflight_pass = all(checks.values())
-    price_declaration = "true" if contract in {"T00", "T01", "T02"} else "not_applicable_for_quote_contract"
+    price_declaration = "true" if contract in NO_PRICE else "not_applicable_for_quote_contract"
     declaration = (
         "已通过交付门禁：\n"
         f"contract={contract};\nfixed_case={rule['fixed_case'] if rule else 'UNCONFIRMED'};\n"

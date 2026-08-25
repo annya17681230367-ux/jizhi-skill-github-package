@@ -41,6 +41,8 @@ Use fixed DP value content from `assets/templates/dp_fixed_value_modules.json`. 
 
 For a deterministic client HTML draft, prepare the contract JSON and run `scripts/build_dp_proposal.py`. It inserts the fixed value modules automatically.
 
+D01 is a formal deliverable only after the shared HeadlessChrome/Skia export, rendered-PNG review and a passing `.preflight.json`. It is exactly 3 pages and follows fixed case 06. Fixed headings, value copy, process copy, team copy and layout cannot be rewritten.
+
 Read `references/brand_visual_guidelines.md` only for branded HTML/PDF output. Read `references/sales_followup.md` only when WeChat follow-up copy is requested.
 
 ## Workflow

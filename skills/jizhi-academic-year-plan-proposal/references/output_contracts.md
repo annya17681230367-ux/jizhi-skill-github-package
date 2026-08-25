@@ -4,6 +4,8 @@ Select exactly one contract. Fixed labels and fixed value modules must be reused
 
 Every contract contains a compact `课程与服务匹配` module with: `课程名称 | 课程代码 | 课程考核形式 | 课程工作量 | 匹配服务`. Workload basis, warnings and official source details remain in the internal audit artifact.
 
+All client copy outside student/course/date/price fields is fixed in the generator and its JSON value modules. Do not paraphrase fixed headings, service copy, role copy, labels or section order.
+
 ## T00 Personalized Eight-Item Planning Report
 
 Owner: `jizhi-academic-year-plan-proposal`.
@@ -16,6 +18,8 @@ Fixed order:
 4. Internal-only sources, pending materials and warnings.
 
 No quote unless the user separately requests T03.
+
+Hard gate: fixed case 00, exactly 2 pages, complete logo and unobstructed IP, fixed eight-item labels, and passing PDF preflight.
 
 ## T01 Standard Annual Academic Plan
 
@@ -43,7 +47,7 @@ Hard gate: fixed case 01, exactly 2 pages, PingFang SC CSS stack, complete logo 
 Owner: `jizhi-academic-year-plan-proposal`.
 Program template key: `T02` in `assets/templates/template_contracts.json`.
 
-Limit: 1-2 pages.
+Limit: exactly 1 page.
 
 Fixed order:
 
@@ -56,6 +60,8 @@ Fixed order:
 7. Expected effect and material boundary.
 
 No logo, price, internal version label or long raw DDL wall unless explicitly requested.
+
+Hard gate: fixed case 02 and passing PDF preflight.
 
 ## T03 Standalone Planning Quote
 
@@ -74,6 +80,16 @@ Required fixed fields:
 
 Do not include DP work. DP quotes belong to the DP quote skill.
 
+Hard gate: fixed case 03, exactly 1 page, no logo/IP, and passing PDF preflight.
+
+## T04 Fixed Assessment And Quote Workbook
+
+Owner: `dp-product-new-customer-quote`.
+
+The workbook always contains five sheets in this order: `01课程考核汇总`, `02课程与服务匹配`, `03报价明细`, `04资料来源`, `05内部审核`. Sheet names, titles, headers, order and base style are fixed. Only course, evidence, workload, review and authorized quote values are variable.
+
+Hard gate: fixed case 04 and passing `.xlsx.preflight.json`.
+
 ## T05 Mixed DP + Planning Plan
 
 Owner: annual skill. DP content is supplied by `dp-proposal-designer`.
@@ -91,3 +107,5 @@ Fixed order:
 8. Two separate quote blocks only when explicitly requested.
 
 Never merge the two price calculations.
+
+Hard gate: fixed case 05, exactly 1 page, complete logo and unobstructed IP, and passing PDF preflight.

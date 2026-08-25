@@ -72,6 +72,8 @@ class PackageTests(unittest.TestCase):
                 self.assertNotIn("审核状态", text)
                 self.assertNotIn("预警提示", text)
                 self.assertNotIn('class="contract-label"', text)
+                contracts = json.loads((ROOT/"skills/jizhi-academic-year-plan-proposal/assets/templates/template_contracts.json").read_text(encoding="utf-8"))
+                self.assertIn(f'data-fixed-template="{contracts[contract]["fixed_case"]}"', text)
                 if contract in {"T00", "T01", "T05"}:
                     self.assertIn('class="ip-hero"', text)
                 else:
@@ -114,6 +116,8 @@ class PackageTests(unittest.TestCase):
             self.assertNotIn("预警提示", text)
             self.assertNotIn("报价状态", text)
             self.assertIn('class="ip-hero"', text)
+            self.assertIn('class="contract-D01"', text)
+            self.assertIn('data-fixed-template="固定模板06"', text)
             self.assertTrue(Path(str(a) + ".internal.html").exists())
             self.assertIn("DP内部审核附件", Path(str(a) + ".internal.html").read_text(encoding="utf-8"))
 
@@ -142,6 +146,9 @@ class PackageTests(unittest.TestCase):
             self.assertIn("折后价", values)
             self.assertEqual(ws["M10"].hyperlink.target, "https://example.edu/module")
             self.assertTrue(output.with_suffix(".xlsx.trace.json").exists())
+            preflight = json.loads(output.with_suffix(".xlsx.preflight.json").read_text(encoding="utf-8"))
+            self.assertTrue(preflight["preflight_pass"])
+            self.assertEqual(preflight["fixed_case"], "固定模板04")
 
     def test_install_quarantines_retired_skill(self):
         with tempfile.TemporaryDirectory() as tmp:

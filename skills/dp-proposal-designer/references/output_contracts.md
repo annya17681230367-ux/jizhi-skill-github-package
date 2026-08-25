@@ -4,6 +4,8 @@ Select exactly one contract. Dynamic sections are customized; fixed value module
 
 Every proposal contract contains `课程与服务匹配`: `课程名称 | 课程代码 | 课程考核形式 | 课程工作量 | 匹配服务`.
 
+All value, process, team, scope and section copy is fixed in the generator and `dp_fixed_value_modules.json`. Do not paraphrase it. Only student, course, evidence, risk, material and date fields are variable.
+
 ## D01 Pure DP Client Proposal
 
 Program template key: `D01` in `assets/templates/template_contracts.json`.
@@ -24,6 +26,8 @@ Fixed order:
 12. Quote status only when requested; final value comes from the DP quote skill.
 
 No planning/陪跑 lesson allocation appears in D01.
+
+Hard gate: fixed case 06, exactly 3 pages, unobstructed IP, fixed section order and passing PDF preflight.
 
 ## D02 DP Module For Mixed Plan
 

@@ -4,7 +4,7 @@
 
 - `skills/jizhi-academic-year-plan-proposal/`
   - `SKILL.md`: annual-planning entrypoint
-  - `references/output_contracts.md`: T00/T01/T02/T03/T05 output structures
+  - `references/output_contracts.md`: fixed T00/T01/T02/T03/T04/T05 output structures
   - `references/service_packages.yaml`: sole standard-hour source
   - `references/service_logic.md`: course classification and execution rules
   - `assets/schemas/intake.schema.json`: canonical input contract
@@ -13,7 +13,7 @@
   - `assets/data/official_source_registry.json`: verified official URL cache
   - `scripts/build_planning_proposal.py`: deterministic HTML renderer
   - `scripts/export_pdf.py`: verified HTML-to-PDF exporter
-  - `scripts/preflight_pdf.py`: mandatory page/font/evidence/client-boundary/render gate
+  - `scripts/preflight_pdf.py`: shared mandatory page/font/evidence/client-boundary/render gate for all PDF contracts
   - `scripts/build_planning_quote.py`: private pricing add-on interface
   - `scripts/update_source_registry.py`: official URL cache updater
   - `templates/fixed_cases/`: annual, public-sector, quote, Excel, and mixed visual references
@@ -23,7 +23,7 @@
   - `assets/templates/dp_fixed_value_modules.json`: sole fixed-value copy source
   - `scripts/validate_intake.py`: intake gate
   - `scripts/build_dp_proposal.py`: stable six-module HTML renderer
-  - `scripts/export_pdf.py`: verified HTML-to-PDF exporter
+  - `scripts/export_pdf.py`: verified HTML-to-PDF exporter using the shared PDF preflight
   - `assets/templates/template_contracts.json`: fixed DP template registry
   - `assets/schemas/intake.schema.json`: canonical DP input contract
   - `templates/fixed_cases/`: generic pure-DP visual reference only
@@ -32,6 +32,7 @@
   - `references/output_contracts.md`: Q01/Q02 structures
   - `scripts/quote_dp_api.py`: authorized sealed quote client
   - `scripts/build_quote_workbook.py`: Assessment validation, input fingerprint, warnings and five-sheet XLSX output
+  - `scripts/preflight_workbook.py`: fixed T04 sheet/header/style gate
 
 ## Package Tools
 

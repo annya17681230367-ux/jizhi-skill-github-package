@@ -36,6 +36,8 @@ python3 scripts/build_quote_workbook.py assessment.json quote.xlsx --request-quo
 
 For internal review without an API call, omit `--request-quote`; the workbook will show `待授权报价`. If any covered row changes, invalidate the old quote and call again.
 
+The workbook follows fixed case 04. Its five sheet names, order, titles, headers and base style cannot change. `build_quote_workbook.py` runs `preflight_workbook.py` automatically; do not deliver unless `.xlsx.preflight.json` has `preflight_pass=true`.
+
 6. Produce the selected contract in [output_contracts.md](references/output_contracts.md).
 7. Bind the price to an input fingerprint, source snapshot, workload total, quote time and review status. A changed input invalidates the prior price.
 

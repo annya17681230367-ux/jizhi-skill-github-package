@@ -29,6 +29,8 @@ If the user does not explicitly request custom hours, use the standard package c
 
 For stable production, normalize inputs to `assets/schemas/intake.schema.json`, validate with `scripts/validate_intake.py`, then render with `scripts/build_planning_proposal.py`. Every course must map to the shared `课程与服务匹配` fields: course code, course name, assessment form, workload and matched service.
 
+T00/T01/T02/T03/T05 use fixed generators. Fixed headings, service copy, role copy, section order, page count, logo/IP policy and typography cannot be rewritten; only validated student, course, evidence, date, service and authorized price fields are variable.
+
 ## Evidence
 
 Use `references/official_research_policy.md`. Prefer official information for the instruction date's calendar year; if unavailable, use the latest currently published official information and flag the year difference. Reuse verified school URLs from `assets/data/official_source_registry.json`, but revalidate stale facts. Every official fact needs its source URL. Unknown weights, DDLs, word counts or briefs remain pending.
@@ -74,7 +76,7 @@ Read additional references only when required:
 - Fixed template labels, value modules and disclaimers are copied unchanged; only student/course/timeline/service variables are generated.
 - Never place internal sources, boundary notes, warnings, version labels, quote trace IDs or review status in the client artifact.
 - Never suppress ambiguity. Missing official facts, estimated workload, unmatched pricing matrix, unreviewed estimates, stale sources and out-of-scope requests must become warnings in the internal audit artifact and the reply.
-- Visual routing is fixed: T01 follows fixed case 01, T02 case 02, T03 case 03 and T05 case 05. Do not replace them with a generic long-form document.
+- Visual routing is fixed: T00 follows fixed case 00, T01 case 01, T02 case 02, T03 case 03 and T05 case 05. Do not replace them with a generic long-form document.
 - The customer PDF is incomplete until its `.preflight.json` says `preflight_pass=true`. Wrong page count, missing font contract, missing rendered PNGs, unreviewed PNGs, internal evidence leakage, forbidden price leakage or guaranteed-grade claims are hard failures.
 - Every final delivery reply must reproduce `acceptance_declaration` from the passing preflight file. Missing this declaration means the delivery is incomplete.
 

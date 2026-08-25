@@ -1,5 +1,5 @@
 {
-  "D01": {"label": "纯DP服务方案", "max_pages": 8, "sections": ["context", "risk", "course_service_match", "fixed_value", "timeline", "team_boundary", "quote_warnings"]},
+  "D01": {"label": "纯DP服务方案", "fixed_case": "固定模板06", "min_pages": 3, "max_pages": 3, "sections": ["context", "risk", "course_service_match", "fixed_value", "timeline", "team_boundary", "quote_warnings"]},
   "D02": {"label": "混合方案DP模块", "max_pages": 3, "sections": ["course_service_match", "fixed_value", "timeline", "scope", "quote_warnings"]},
   "D03": {"label": "DP Assessment报价交接", "output": "xlsx", "owner": "dp-product-new-customer-quote"}
 }

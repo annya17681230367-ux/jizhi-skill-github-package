@@ -9,6 +9,7 @@ import importlib.util
 import json
 import os
 import sys
+import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -242,6 +243,7 @@ def main() -> int:
     output = Path(args.output_xlsx)
     build(data, quote, output, trace)
     output.with_suffix(output.suffix + ".trace.json").write_text(json.dumps({"trace": trace, "quote": quote}, ensure_ascii=False, indent=2), encoding="utf-8")
+    subprocess.run([sys.executable, str(Path(__file__).with_name("preflight_workbook.py")), str(output)], check=True)
     print(args.output_xlsx)
     return 0
 

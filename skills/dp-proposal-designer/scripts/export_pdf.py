@@ -73,7 +73,14 @@ def main():
         raise SystemExit("PDF has no pages.")
     if args.max_pages and pages > args.max_pages:
         raise SystemExit(f"PDF page count {pages} exceeds contract limit {args.max_pages}.")
-    print(f"{output} pages={pages}")
+    preflight = Path(__file__).resolve().parents[2] / "jizhi-academic-year-plan-proposal/scripts/preflight_pdf.py"
+    if not preflight.exists():
+        raise SystemExit("Shared PDF preflight is missing. Reinstall the complete Jizhi skill package.")
+    result = subprocess.run([sys.executable, str(preflight), str(source), str(output)], text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    if result.returncode not in (0, 2):
+        raise SystemExit("PDF preflight failed: " + (result.stdout or result.stderr).strip())
+    print(f"{output} pages={pages} preflight=PENDING_VISUAL_REVIEW")
+    print(f"Review PNGs, then run: {sys.executable} {preflight} {source} {output} --visual-reviewed")
 
 
 if __name__ == "__main__":
