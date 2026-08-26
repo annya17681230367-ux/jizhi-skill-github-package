@@ -39,7 +39,7 @@ class PackageTests(unittest.TestCase):
             run(PYTHON, script, FIXTURES/"annual.json", b)
             self.assertEqual(hashlib.sha256(a.read_bytes()).digest(), hashlib.sha256(b.read_bytes()).digest())
             text = a.read_text(encoding="utf-8")
-            for label in ("六大学业规划模块", "课程与服务匹配", "AI智慧学习系统", "每日", "每周", "每月"):
+            for label in ("六大学业规划模块", "课程与服务匹配", "AI智慧学习系统", "每日", "每周", "每月", "方案价值", "学业规划价值", "AI智学系统价值", "押题价值", "陪跑课价值", "专业课价值"):
                 self.assertIn(label, text)
             for internal in ("来源、边界", "预警提示", "报价追溯", "审核状态", "亲爱的学业规划师"):
                 self.assertNotIn(internal, text)
@@ -99,7 +99,7 @@ class PackageTests(unittest.TestCase):
             self.assertTrue(result["preflight_pass"])
             self.assertEqual(result["contract"], "T01")
             self.assertEqual(result["fixed_case"], "固定模板01")
-            self.assertEqual(result["pages"], 2)
+            self.assertEqual(result["pages"], 3)
             self.assertIn("已通过交付门禁", result["acceptance_declaration"])
 
     def test_dp_proposal_deterministic(self):

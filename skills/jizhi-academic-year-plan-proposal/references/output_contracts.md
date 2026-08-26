@@ -40,7 +40,7 @@ Fixed order:
 
 No price appears in T01.
 
-Hard gate: fixed case 01, exactly 2 pages, PingFang SC CSS stack, complete logo and unobstructed IP on page 1, course/timeline/AI execution modules on page 2, and passing `.preflight.json` after PNG review.
+Hard gate: fixed case 01, exactly 3 pages, PingFang SC CSS stack, complete logo and unobstructed IP on page 1, course/timeline/AI execution modules on page 2, fixed proposal-value module on page 3, and passing `.preflight.json` after PNG review.
 
 ## T02 Public-Sector Concise Service-Match Plan
 

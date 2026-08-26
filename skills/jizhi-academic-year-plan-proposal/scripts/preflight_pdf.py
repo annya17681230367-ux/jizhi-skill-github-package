@@ -14,7 +14,7 @@ from pathlib import Path
 
 CONTRACTS = {
     "T00": {"fixed_case": "固定模板00", "min_pages": 2, "max_pages": 2},
-    "T01": {"fixed_case": "固定模板01", "min_pages": 2, "max_pages": 2},
+    "T01": {"fixed_case": "固定模板01", "min_pages": 3, "max_pages": 3},
     "T02": {"fixed_case": "固定模板02", "min_pages": 1, "max_pages": 1},
     "T03": {"fixed_case": "固定模板03", "min_pages": 1, "max_pages": 1},
     "T05": {"fixed_case": "固定模板05", "min_pages": 1, "max_pages": 1},
@@ -29,7 +29,7 @@ T01_MARKERS = (
 )
 REQUIRED_MARKERS = {
     "T00": ("ACADEMIC PLANNING", "个性化学业规划报告", "课程与服务匹配"),
-    "T01": T01_MARKERS,
+    "T01": T01_MARKERS + ("方案价值", "学业规划价值", "AI智学系统价值", "押题价值", "陪跑课价值", "专业课价值"),
     "T02": ("课程考核与服务安排", "课程与服务匹配", "AI智慧学习系统"),
     "T03": ("课程与服务匹配", "服务报价", "原价", "折后价"),
     "T05": ("DP与学业规划服务分工", "课程与服务匹配"),
@@ -140,7 +140,8 @@ def main():
     checks["rendered_pngs"] = not render_error and len(images) == pages and all(valid_png(path) for path in images)
     checks["render_qa"] = checks["rendered_pngs"] and args.visual_reviewed
 
-    preflight_pass = all(checks.values())
+    static_checks = {key: value for key, value in checks.items() if key != "render_qa"}
+    preflight_pass = all(static_checks.values()) and checks["render_qa"]
     price_declaration = "true" if contract in NO_PRICE else "not_applicable_for_quote_contract"
     declaration = (
         "已通过交付门禁：\n"
@@ -166,7 +167,8 @@ def main():
     preflight_path = pdf_path.with_suffix(".preflight.json")
     preflight_path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(result, ensure_ascii=False, sort_keys=True))
-    raise SystemExit(0 if preflight_pass else (2 if checks["rendered_pngs"] and not args.visual_reviewed else 1))
+    pending_review = all(static_checks.values()) and checks["rendered_pngs"] and not args.visual_reviewed
+    raise SystemExit(0 if preflight_pass else (2 if pending_review else 1))
 
 
 if __name__ == "__main__":
