@@ -1,0 +1,61 @@
+{
+  "student": {
+    "school": "SIM",
+    "program": "Diploma in Information Technology",
+    "entry_date": "10 月 1 日",
+    "headline": "SIM DIT YEAR ONE SUPPORT",
+    "profile": [
+      {"value": "10.01", "label": "新生入学", "note": "开学前完成课程资料建档，开学首月完成课程风险初判。"},
+      {"value": "8", "label": "线下考试课程", "note": "每门课都需要提前进入复习节奏，重点课程需前置专业理解。"},
+      {"value": "68-72", "label": "年度主目标", "note": "以稳定通过为底线，优势课程争取 70-75 的突破空间。"}
+    ]
+  },
+  "targets": {
+    "baseline": "每门课稳定通过，降低补考风险",
+    "main": "年度均分争取 68-72",
+    "stretch": "优势课程争取 70-75"
+  },
+  "lesson_plan": {
+    "professional_lessons": 51,
+    "pacing_lessons": 17,
+    "total_lessons": 68,
+    "per_course_cap": 10,
+    "tiers": [
+      {"value": "4", "label": "高风险课", "note": "每门 7 专业 + 2 陪跑"},
+      {"value": "3", "label": "中风险课", "note": "每门 6 专业 + 2 陪跑"},
+      {"value": "1", "label": "适应课", "note": "每门 5 专业 + 3 陪跑"},
+      {"value": "≤9", "label": "单门课时", "note": "低于 10 节"}
+    ]
+  },
+  "roles": [
+    {"title": "专业课老师", "text": "负责课程概念、考试题型、代码/数据库/系统类应用题、错题复盘和考前训练。"},
+    {"title": "陪跑课老师", "text": "每门课配置 2-3 节，用于学习任务拆解、资料整理、DDL 跟进和考前节奏管理。"},
+    {"title": "学业规划师", "text": "负责课程风险排序、月度复盘、课时优先级调整和考试阶段安排。"},
+    {"title": "AI 智慧学习系统", "text": "沉淀课程资料、术语、错题和进度记录，作为后续复习与风险判断的依据。"}
+  ],
+  "courses": [
+    {"name": "Programming Foundations", "cn": "编程基础", "risk": "高", "professional_lessons": 7, "pacing_lessons": 2, "watch": "语法应用、代码逻辑、调试题、限时作答", "support": "建立编程框架，拆解典型题，完成错题复盘与考前模拟。"},
+    {"name": "Database / Data Management", "cn": "数据库与数据管理", "risk": "高", "professional_lessons": 7, "pacing_lessons": 2, "watch": "SQL、ERD、关系模型、细节题失分", "support": "训练 SQL 与 ERD 题型，梳理关系模型，沉淀数据库错题库。"},
+    {"name": "Computer Systems / Networking", "cn": "计算机系统与网络", "risk": "高", "professional_lessons": 7, "pacing_lessons": 2, "watch": "英文术语、抽象概念、简答题完整度", "support": "建立术语体系和章节框架，训练简答题表达与概念串联。"},
+    {"name": "Web / Application Development", "cn": "Web 或应用开发", "risk": "高", "professional_lessons": 7, "pacing_lessons": 2, "watch": "代码结构、应用逻辑、实操题稳定性", "support": "讲解应用逻辑和代码结构，配合典型题与实操复习。"},
+    {"name": "Information Systems", "cn": "信息系统基础", "risk": "中", "professional_lessons": 6, "pacing_lessons": 2, "watch": "概念分散、案例题结构、关键词使用", "support": "搭建知识框架，整理关键词，训练案例题答题模板。"},
+    {"name": "IT Project Management", "cn": "IT 项目管理", "risk": "中", "professional_lessons": 6, "pacing_lessons": 2, "watch": "方法论、流程题、场景化答题", "support": "梳理项目流程和方法论，完成案例分析和章节复习。"},
+    {"name": "Mathematics / Statistics for IT", "cn": "IT 数学或统计基础", "risk": "中", "professional_lessons": 6, "pacing_lessons": 2, "watch": "公式掌握、计算步骤、题型熟练度", "support": "整理公式与步骤，按题型训练，持续订正错题。"},
+    {"name": "Academic Communication / Digital Skills", "cn": "学术沟通或数字技能", "risk": "中低", "professional_lessons": 5, "pacing_lessons": 3, "watch": "英文表达、资料阅读、学习习惯建立", "support": "训练英文术语、阅读方法和表达结构，配合学习节奏建立。"}
+  ],
+  "roadmap": [
+    {"label": "Before", "title": "入学前建档", "text": "整理 Canvas、课表、课程资料和 8 门课程学习档案，完成基础诊断。", "owner": "规划师 + 陪跑老师"},
+    {"label": "Month 1", "title": "开学首月识别风险", "text": "确认每门课考试形式、作业节奏和课堂理解情况，优先处理高风险专业课。", "owner": "专业课老师 + 规划师"},
+    {"label": "Term", "title": "学期中推进", "text": "专业课老师讲解重点知识和题型；陪跑老师跟进资料、任务和 DDL。", "owner": "专业课老师 + 陪跑老师"},
+    {"label": "Exam -4W", "title": "考前四周冲刺", "text": "每门课完成知识框架复习、样题/错题训练和考试表达整理。", "owner": "专业课老师主导"},
+    {"label": "After", "title": "成绩后复盘", "text": "根据成绩和学习过程，调整下一阶段课程风险、课时顺序和复习策略。", "owner": "学业规划师"}
+  ],
+  "tracking": [
+    {"title": "课程资料库", "text": "按 8 门课保存课件、考试说明、术语、样题和复习材料。"},
+    {"title": "错题与薄弱点", "text": "记录编程、数据库、系统网络等课程的高频失分点。"},
+    {"title": "周任务记录", "text": "跟踪每周资料整理、练习完成、复习进度和 DDL 状态。"},
+    {"title": "考前复习包", "text": "沉淀每门课考前框架、错题、样题和表达模板。"}
+  ],
+  "materials_needed": ["课程表", "8 门课正式名称", "syllabus / course outline", "考试权重", "考试时间", "Canvas 课程资料"],
+  "boundary_note": "正式课程名可在拿到 SIM 课表和 syllabus 后替换。"
+}

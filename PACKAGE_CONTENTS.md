@@ -5,13 +5,16 @@
 - `skills/jizhi-academic-year-plan-proposal/`
   - `SKILL.md`: annual-planning entrypoint
   - `references/output_contracts.md`: fixed T00/T01/T02/T03/T04/T05 output structures
+  - `references/client_support_proposal.md`: flexible student/family-facing customer proposal structure and tone rules
   - `references/service_packages.yaml`: sole standard-hour source
   - `references/service_logic.md`: course classification and execution rules
   - `assets/schemas/intake.schema.json`: canonical input contract
+  - `assets/schemas/client_support_proposal.schema.json`: client-support proposal input contract
   - `assets/templates/planning_fixed_modules.json`: fixed value copy
   - `assets/templates/template_contracts.json`: fixed planning template registry
   - `assets/data/official_source_registry.json`: verified official URL cache
   - `scripts/build_planning_proposal.py`: deterministic HTML renderer
+  - `scripts/build_client_support_proposal.py`: branded customer-proposal HTML renderer
   - `scripts/export_pdf.py`: verified HTML-to-PDF exporter
   - `scripts/preflight_pdf.py`: shared mandatory page/font/evidence/client-boundary/render gate for all PDF contracts
   - `scripts/build_planning_quote.py`: private pricing add-on interface

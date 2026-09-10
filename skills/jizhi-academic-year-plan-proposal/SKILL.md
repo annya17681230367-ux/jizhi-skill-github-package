@@ -10,6 +10,7 @@ Generate Chinese academic-planning deliverables. This is the only public owner f
 ## Boundary
 
 - Use this skill for eight-item diagnosis reports, academic planning, course priority, standard/custom planning hours, term timelines, daily/weekly/monthly execution, AI智慧学习系统, planning client proposals and planning-product quotes.
+- When the user asks for a student/family-facing customer proposal, branded sales proposal, "展示服务价值", "美观PDF", "客户版方案", or says to break out of the fixed template logic, use the client-support proposal route in `references/client_support_proposal.md` and `scripts/build_client_support_proposal.py`. This route is not bound to fixed T01 page counts.
 - For pure DP/安心包/卓越安心包 proposals, use `dp-proposal-designer`.
 - For DP assessment pricing or a final DP price, use `dp-product-new-customer-quote`.
 - For mixed DP + planning work, this skill owns the combined client structure; keep the two service scopes and quote engines separate.
@@ -29,7 +30,7 @@ If the user does not explicitly request custom hours, use the standard package c
 
 For stable production, normalize inputs to `assets/schemas/intake.schema.json`, validate with `scripts/validate_intake.py`, then render with `scripts/build_planning_proposal.py`. Every course must map to the shared `课程与服务匹配` fields: course code, course name, assessment form, workload and matched service.
 
-T00/T01/T02/T03/T05 use fixed generators. Fixed headings, service copy, role copy, section order, page count, logo/IP policy and typography cannot be rewritten; only validated student, course, evidence, date, service and authorized price fields are variable.
+T00/T01/T02/T03/T05 use fixed generators. Fixed headings, service copy, role copy, section order, page count, logo/IP policy and typography cannot be rewritten; only validated student, course, evidence, date, service and authorized price fields are variable. Client-support proposals are a separate flexible route and must not be forced into the T01 exactly-three-page contract.
 
 ## Evidence
 
@@ -44,12 +45,14 @@ Select exactly one contract from `references/output_contracts.md`:
 - `T02`: public-sector concise service-match plan;
 - `T03`: standalone planning-product quote sheet;
 - `T05`: mixed DP + planning plan.
+- `CLIENT_SUPPORT`: flexible branded student/family-facing proposal focused on service architecture, course risk, course-to-service matching, lesson mix and year execution. Use only when the user explicitly wants a customer-facing proposal instead of the fixed report contracts.
 
 Do not read every template case. Use only the selected contract and its named template asset.
 
 Read additional references only when required:
 
 - course classification, execution rhythm or AI system: `references/service_logic.md`;
+- customer-facing branded proposal design: `references/client_support_proposal.md`;
 - planning-product quote: `references/pricing_quote_rules.md`;
 - branded HTML/PDF: `references/brand_visual_spec.md`;
 - final verification: `references/quality_check.md`.
@@ -65,6 +68,20 @@ Read additional references only when required:
 7. Generate the clean client HTML with `build_planning_proposal.py`, then export only that HTML through `export_pdf.py` using HeadlessChrome/Skia. Do not rebuild the customer layout with ReportLab.
 8. `export_pdf.py` must create rendered PNG pages and a same-name `.preflight.json`. Inspect every PNG, then run `preflight_pdf.py ... --visual-reviewed`. Do not deliver unless `preflight_pass=true`.
 9. Generate the same-name `.internal.html/.internal.json` audit attachment. Put sources, missing facts, model estimates, warnings, contract/version identifiers, quote trace and review status only in the internal attachment. If warnings exist, the conversation reply must include exactly: `亲爱的学业规划师，您好！此次方案生成存在【预警提示】：（预警提示内容）`.
+
+## Client-Support Proposal Route
+
+Use this route for polished student/family-facing proposals where the goal is to explain the service clearly and convincingly. It is optimized for sales and client understanding, not internal audit density.
+
+- Normalize inputs to `assets/schemas/client_support_proposal.schema.json`.
+- Render with `scripts/build_client_support_proposal.py`.
+- Keep course risks, course-service matching, lesson counts and stage support specific.
+- Avoid headings such as "给学生的价值" or generic value labels. Let value be visible through service structure, course risk handling and deliverables.
+- Remove contrastive sales copy such as "我们不会只给家长一句..." or other lines that criticize a weaker service model.
+- Keep pacing/coaching lessons limited when requested; when the user says "陪跑课每门最多2-3节课，其余安排专业课", enforce per-course pacing lessons <= 3 and show professional lesson percentage.
+- Do not include pricing unless the user asks for quote content.
+- Client copy may include a concise "待确认资料" list, but must not expose internal audit traces, model-estimate wording, private sources or unreleased pricing.
+- Export to PDF with HeadlessChrome/Skia or a visually equivalent renderer, render pages to PNG, and inspect representative pages before delivery. The page count is flexible; visual quality and client readability are the gate.
 
 ## Non-Negotiable Rules
 

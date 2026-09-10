@@ -1,6 +1,8 @@
 # Academic Planning Output Contracts
 
-Select exactly one contract. Fixed labels and fixed value modules must be reused unchanged. Generate only fields marked `VARIABLE`.
+Select exactly one fixed contract for T00/T01/T02/T03/T05 outputs. Fixed labels and fixed value modules must be reused unchanged. Generate only fields marked `VARIABLE`.
+
+When the user explicitly asks for a polished student/family-facing customer proposal, use the separate `CLIENT_SUPPORT` route instead of forcing the work into a fixed T contract. Read `references/client_support_proposal.md`.
 
 Every contract contains a compact `课程与服务匹配` module with: `课程名称 | 课程代码 | 课程考核形式 | 课程工作量 | 匹配服务`. Workload basis, warnings and official source details remain in the internal audit artifact.
 
@@ -109,3 +111,23 @@ Fixed order:
 Never merge the two price calculations.
 
 Hard gate: fixed case 05, exactly 1 page, complete logo and unobstructed IP, and passing PDF preflight.
+
+## CLIENT_SUPPORT Flexible Customer Proposal
+
+Owner: annual skill using `references/client_support_proposal.md`.
+
+Use for branded student/family-facing sales proposals where the user wants service value, course risks, course-to-service matching, lesson mix and yearly support to be presented beautifully and concretely.
+
+This route is intentionally not fixed to 1/2/3 pages. It should usually be 6-8 visually designed A4 pages and generated with `scripts/build_client_support_proposal.py`.
+
+Required client modules:
+
+- cover and student context;
+- service architecture;
+- professional/pacing lesson mix;
+- course risk and service matching;
+- year service roadmap;
+- AI learning system and trackable learning;
+- starting materials and concise boundary note.
+
+Hard gate: follow `brand_visual_spec.md`, keep IP images unobstructed, render PDF pages to PNG, visually inspect representative pages, and confirm no guaranteed-grade claim, contrastive sales copy, internal audit trace or private price leakage appears in the client artifact.

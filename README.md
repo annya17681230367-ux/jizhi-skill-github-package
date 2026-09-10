@@ -1,6 +1,6 @@
 # 极致学业规划与 DP Skills
 
-Version `2.2.1` fixes three independent product boundaries and adds executable, regression-tested generation paths.
+Version `2.6.0` adds a branded `CLIENT_SUPPORT` route for student/family-facing academic support proposals, while preserving the existing fixed planning and DP boundaries.
 
 ## Three Skills
 
@@ -31,6 +31,19 @@ cd jizhi-skill-github-package
 5. Example PDFs are visual references, not runtime instructions.
 6. Every proposal includes a fixed `课程与服务匹配` module and a machine-readable warning sidecar.
 7. Official facts prefer the request-year source, fall back to the latest official source, and retain the source URL.
+8. Student/family-facing customer proposals use the flexible `CLIENT_SUPPORT` route when the user asks for a branded, service-focused PDF.
+
+## Client-Support Proposal Route
+
+For polished customer proposals, use:
+
+```bash
+python3 skills/jizhi-academic-year-plan-proposal/scripts/build_client_support_proposal.py \
+  tests/fixtures/client_support_sim_dit.json \
+  output/client_support.html
+```
+
+Then export the HTML to PDF with Chromium/Chrome and visually inspect the rendered pages. This route is intentionally not fixed to the old T01 exactly-three-page gate.
 
 `scripts/route_request.py` is a regression-test and diagnostic helper. Actual Codex routing is controlled by the three non-overlapping `SKILL.md` descriptions.
 

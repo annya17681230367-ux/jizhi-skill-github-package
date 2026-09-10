@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Client-facing academic support proposal",
+  "type": "object",
+  "required": ["student", "targets", "lesson_plan", "roles", "courses", "roadmap", "tracking"],
+  "properties": {
+    "student": {
+      "type": "object",
+      "required": ["school", "program", "entry_date", "profile"],
+      "properties": {
+        "school": {"type": "string"},
+        "program": {"type": "string"},
+        "entry_date": {"type": "string"},
+        "headline": {"type": "string"},
+        "profile": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["value", "label", "note"],
+            "properties": {
+              "value": {"type": "string"},
+              "label": {"type": "string"},
+              "note": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "targets": {
+      "type": "object",
+      "required": ["baseline", "main", "stretch"],
+      "properties": {
+        "baseline": {"type": "string"},
+        "main": {"type": "string"},
+        "stretch": {"type": "string"}
+      }
+    },
+    "lesson_plan": {
+      "type": "object",
+      "required": ["professional_lessons", "pacing_lessons", "total_lessons", "per_course_cap", "tiers"],
+      "properties": {
+        "professional_lessons": {"type": "integer"},
+        "pacing_lessons": {"type": "integer"},
+        "total_lessons": {"type": "integer"},
+        "per_course_cap": {"type": "integer"},
+        "tiers": {"type": "array", "items": {"type": "object"}}
+      }
+    },
+    "roles": {"type": "array", "items": {"type": "object"}},
+    "courses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "cn", "risk", "professional_lessons", "pacing_lessons", "watch", "support"],
+        "properties": {
+          "name": {"type": "string"},
+          "cn": {"type": "string"},
+          "risk": {"type": "string"},
+          "professional_lessons": {"type": "integer"},
+          "pacing_lessons": {"type": "integer"},
+          "watch": {"type": "string"},
+          "support": {"type": "string"}
+        }
+      }
+    },
+    "roadmap": {"type": "array", "items": {"type": "object"}},
+    "tracking": {"type": "array", "items": {"type": "object"}},
+    "materials_needed": {"type": "array", "items": {"type": "string"}},
+    "boundary_note": {"type": "string"}
+  }
+}
