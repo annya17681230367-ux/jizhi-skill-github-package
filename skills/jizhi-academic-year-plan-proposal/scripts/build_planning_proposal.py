@@ -63,7 +63,16 @@ def timeline_rows(data):
 
 def quote_client(data):
     quote = data.get("quote", {})
-    rows = [(x.get("label"), x.get("quantity"), x.get("original"), x.get("discount"), x.get("final")) for x in quote.get("lines", [])]
+    rows = [
+        (
+            x.get("label"),
+            x.get("quantity"),
+            x.get("original", "按报价汇总"),
+            x.get("discount", "按报价汇总"),
+            x.get("final", "按报价汇总"),
+        )
+        for x in quote.get("lines", [])
+    ]
     if not rows and not quote.get("final_total"):
         return ""
     return f'''<section class="quote"><div class="section-title"><span>QUOTE</span><h2>服务报价</h2></div>
