@@ -2,7 +2,7 @@
 
 Select exactly one fixed contract for T00/T01/T02/T03/T05 outputs. Fixed labels and fixed value modules must be reused unchanged. Generate only fields marked `VARIABLE`.
 
-When the user explicitly asks for a polished student/family-facing customer proposal, use the separate `CLIENT_SUPPORT` route instead of forcing the work into a fixed T contract. Read `references/client_support_proposal.md`.
+When the user explicitly asks for a polished student/family-facing customer proposal, use the separate `CLIENT_SUPPORT` route instead of forcing the work into a fixed T contract. Read `references/client_support_proposal.md` and `references/planning_output_taxonomy.md`. The UCL-style project-management visual master is the default presentation language for future customer-facing T01/T02/T03 variants, custom plans and mixed plans.
 
 Every contract contains a compact `课程与服务匹配` module with: `课程名称 | 课程代码 | 课程考核形式 | 课程工作量 | 匹配服务`. Workload basis, warnings and official source details remain in the internal audit artifact.
 
@@ -28,7 +28,7 @@ Hard gate: fixed case 00, exactly 2 pages, complete logo and unobstructed IP, fi
 Owner: `jizhi-academic-year-plan-proposal`.
 Program template key: `T01` in `assets/templates/template_contracts.json`.
 
-Fixed order:
+Current fixed contract order:
 
 1. Cover and positioning - VARIABLE school/program/year/target.
 2. Six planning items - REQUIRED fixed labels: 学业画像、问题诊断与定位、目标差距分析、课程优先级排序、阶段行动建议、学业风险清单.
@@ -42,7 +42,9 @@ Fixed order:
 
 No price appears in T01.
 
-Hard gate: fixed case 01, exactly 3 pages, PingFang SC CSS stack, complete logo and unobstructed IP on page 1, course/timeline/AI execution modules on page 2, fixed proposal-value module on page 3, and passing `.preflight.json` after PNG review.
+Presentation direction for new customer-facing T01 work: use the UCL visual master from `planning_output_taxonomy.md`. Keep no price in T01, but present student diagnosis, course configuration, lesson structure, timeline, AI learning system and execution responsibilities with table-first pages.
+
+Legacy hard gate remains until the generator contract is migrated: fixed case 01, exactly 3 pages, PingFang SC CSS stack, complete logo and unobstructed IP on page 1, course/timeline/AI execution modules on page 2, fixed proposal-value module on page 3, and passing `.preflight.json` after PNG review.
 
 ## T02 Public-Sector Concise Service-Match Plan
 
@@ -63,6 +65,8 @@ Fixed order:
 
 No logo, price, internal version label or long raw DDL wall unless explicitly requested.
 
+Presentation direction for new customer-facing T02 work: use the same UCL visual language in a concise one-page or compact form, with service-match table and stage timeline as the core.
+
 Hard gate: fixed case 02 and passing PDF preflight.
 
 ## T03 Standalone Planning Quote
@@ -81,6 +85,8 @@ Required fixed fields:
 - scope note and validity note.
 
 Do not include DP work. DP quotes belong to the DP quote skill.
+
+Presentation direction for new customer-facing T03 work: use UCL-style price cards plus a quote detail table and, when useful, a quick-reference table for course-count discounts and重点/非重点 combinations. Keep quote rules private and show only authorized customer-facing prices.
 
 Hard gate: fixed case 03, exactly 1 page, no logo/IP, and passing PDF preflight.
 
@@ -110,24 +116,26 @@ Fixed order:
 
 Never merge the two price calculations.
 
+Presentation direction for new customer-facing mixed work: prefer the 8-part UCL structure from `planning_output_taxonomy.md`, separating course configuration, DP workload, exam/professional lesson support, calendar, responsibilities and formal execution conditions.
+
 Hard gate: fixed case 05, exactly 1 page, complete logo and unobstructed IP, and passing PDF preflight.
 
 ## CLIENT_SUPPORT Flexible Customer Proposal
 
 Owner: annual skill using `references/client_support_proposal.md`.
 
-Use for branded student/family-facing sales proposals where the user wants service value, course risks, course-to-service matching, lesson mix and yearly support to be presented beautifully and concretely.
+Use for branded student/family-facing sales proposals where the user wants service value, course risks, course-to-service matching, lesson mix and yearly support to be presented beautifully and concretely. This is the preferred route when the user asks to use the newer UCL-style design for T01/T02/T03, standard, custom or mixed proposals.
 
 This route is intentionally not fixed to 1/2/3 pages. It should usually be 6-8 visually designed A4 pages and generated with `scripts/build_client_support_proposal.py`.
 
 Required client modules:
 
 - cover and student context;
-- service architecture;
-- professional/pacing lesson mix;
-- course risk and service matching;
-- year service roadmap;
-- AI learning system and trackable learning;
-- starting materials and concise boundary note.
+- target tiers and concise target boundary;
+- table-based course risk and service matching;
+- professional/pacing lesson mix or DP/exam/support split;
+- year service roadmap or school-calendar node plan;
+- execution responsibility and student cooperation;
+- AI learning system, trackable learning, starting materials and concise boundary note.
 
 Hard gate: follow `brand_visual_spec.md`, keep IP images unobstructed, render PDF pages to PNG, visually inspect representative pages, and confirm no guaranteed-grade claim, contrastive sales copy, internal audit trace or private price leakage appears in the client artifact.

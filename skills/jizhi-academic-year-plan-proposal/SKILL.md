@@ -5,7 +5,7 @@ description: "Generate the single canonical academic-planning family: eight-item
 
 # 极致学业规划年度方案
 
-Generate Chinese academic-planning deliverables. This is the only public owner for personalized planning reports, annual execution plans, planning client proposals and planning-product quotes. It replaces `jizhi-academic-planning-report` and the planning/client-proposal portion of `jizhi-essay-customer-proposal`.
+Generate Chinese academic-planning deliverables. This is the only public owner for personalized planning reports, annual execution plans, planning client proposals and planning-product quotes. It replaces `jizhi-academic-planning-report` and the planning/client-proposal portion of `jizhi-essay-customer-proposal`. Customer-facing planning outputs should use the UCL-style project-management visual master unless a fixed legacy contract or user-supplied reference requires another style.
 
 ## Boundary
 
@@ -14,6 +14,7 @@ Generate Chinese academic-planning deliverables. This is the only public owner f
 - For pure DP/安心包/卓越安心包 proposals, use `dp-proposal-designer`.
 - For DP assessment pricing or a final DP price, use `dp-product-new-customer-quote`.
 - For mixed DP + planning work, this skill owns the combined client structure; keep the two service scopes and quote engines separate.
+- For mixed DP + light-pacing customer proposals, follow the UCL-style project-management pattern in `references/planning_output_taxonomy.md`: professional lessons dominate, pacing is capped per course when requested, DP modules are shown separately from course/exam support, and pricing is delivered as a separate quote artifact unless the user asks otherwise.
 
 Read `references/scenario_routing.md` only when the request mixes DP and planning or the product is ambiguous.
 
@@ -52,7 +53,7 @@ Do not read every template case. Use only the selected contract and its named te
 Read additional references only when required:
 
 - course classification, execution rhythm or AI system: `references/service_logic.md`;
-- customer-facing branded proposal design: `references/client_support_proposal.md`;
+- customer-facing branded proposal design and output classification: `references/client_support_proposal.md` and `references/planning_output_taxonomy.md`;
 - planning-product quote: `references/pricing_quote_rules.md`;
 - branded HTML/PDF: `references/brand_visual_spec.md`;
 - final verification: `references/quality_check.md`.
@@ -73,6 +74,7 @@ Read additional references only when required:
 
 Use this route for polished student/family-facing proposals where the goal is to explain the service clearly and convincingly. It is optimized for sales and client understanding, not internal audit density.
 
+- Use `references/planning_output_taxonomy.md` to classify the output as standard, custom, mixed DP + planning, planning quote or public-sector concise plan before writing.
 - Normalize inputs to `assets/schemas/client_support_proposal.schema.json`.
 - Render with `scripts/build_client_support_proposal.py`.
 - Keep course risks, course-service matching, lesson counts and stage support specific.

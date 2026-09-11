@@ -1,6 +1,6 @@
 # 极致学业规划与 DP Skills
 
-Version `2.6.0` adds a branded `CLIENT_SUPPORT` route for student/family-facing academic support proposals, while preserving the existing fixed planning and DP boundaries.
+Version `2.7.0` standardizes the UCL-style project-management visual master for customer-facing academic planning outputs, including standard plans, custom plans, mixed DP + planning proposals and planning quote sheets.
 
 ## Three Skills
 
@@ -44,6 +44,17 @@ python3 skills/jizhi-academic-year-plan-proposal/scripts/build_client_support_pr
 ```
 
 Then export the HTML to PDF with Chromium/Chrome and visually inspect the rendered pages. This route is intentionally not fixed to the old T01 exactly-three-page gate.
+
+## Output Families And Design
+
+Read `skills/jizhi-academic-year-plan-proposal/references/planning_output_taxonomy.md` before building or revising customer-facing planning outputs. The current default style is:
+
+- Cover with a large blue-gradient title block, target/hour metric cards and one concise project-management judgment.
+- Course/service mapping in compact tables instead of repeated course-risk cards.
+- Standard plans: diagnosis, course configuration, lesson structure, timeline, AI learning system and execution responsibilities.
+- Custom plans: course tiering, user-stated lesson caps, professional/pacing split and dynamic adjustment points.
+- Mixed DP + planning plans: separate course configuration, DP workload, exam/professional lesson support, calendar, responsibilities and formal execution conditions.
+- Quote sheets: price cards, authorized price tables and quick-reference course-count/重点非重点 combination tables when useful.
 
 `scripts/route_request.py` is a regression-test and diagnostic helper. Actual Codex routing is controlled by the three non-overlapping `SKILL.md` descriptions.
 

@@ -43,6 +43,11 @@ def validate(data):
             errors.append(f"course {idx} exceeds per_course_cap")
         if int(course.get("pacing_lessons", 0)) > 3:
             errors.append(f"course {idx} has more than 3 pacing lessons")
+    quote = data.get("quote")
+    if quote:
+        for key in ("planning_total", "dp_total", "combined_total"):
+            if not quote.get(key):
+                errors.append(f"quote missing {key}")
     return errors
 
 
@@ -87,6 +92,33 @@ def tracking_item(item):
     return f"<div class='check'><b>{esc(item.get('title'))}</b>{esc(item.get('text'))}</div>"
 
 
+def dp_item(item):
+    pending = item.get("pending")
+    pending_html = f"<small>待确认：{esc(pending)}</small>" if pending else ""
+    return f"""
+    <div class="dp-item">
+      <b>{esc(item.get('course'))}</b>
+      <span>{esc(item.get('assessment'))} · {esc(item.get('scope'))}</span>
+      <p>{esc(item.get('support'))}</p>
+      {pending_html}
+    </div>
+    """
+
+
+def money_stat(value, label, note=""):
+    return f"<div class='money'><b>{esc(value)}</b><span>{esc(label)}</span><small>{esc(note)}</small></div>"
+
+
+def quote_line(item):
+    return f"""
+    <tr>
+      <td>{esc(item.get('item'))}</td>
+      <td>{esc(item.get('scope'))}</td>
+      <td>{esc(item.get('amount'))}</td>
+    </tr>
+    """
+
+
 def build_html(data, skill_dir):
     assets = skill_dir / "assets"
     logo = asset_uri(assets / "brand/full-logo.jpg")
@@ -122,6 +154,17 @@ def build_html(data, skill_dir):
     other_cards = "".join(course_card(c, i + 1 + len(high_courses)) for i, c in enumerate(other_courses))
     roadmap = "".join(roadmap_step(x) for x in data["roadmap"])
     tracking = "".join(tracking_item(x) for x in data["tracking"])
+    dp_modules = data.get("dp_modules", [])
+    dp_module_html = "".join(dp_item(x) for x in dp_modules)
+    dp_section = ""
+    if dp_modules:
+        dp_section = f"""
+        <div class="dp-panel">
+          <h3>DP 作业保障范围</h3>
+          <p>DP 只覆盖已列出的作业/论文/项目类考核；线下考试、在线测验、出勤和课堂学习仍由专业课与陪跑节奏承接。</p>
+          <div class="dp-grid">{dp_module_html}</div>
+        </div>
+        """
     materials = "、".join(data.get("materials_needed", []))
     boundary = data.get("boundary_note") or "正式课程名可在拿到课表和 syllabus 后替换。"
 
@@ -205,6 +248,28 @@ h2 {{ margin:0; font-size:26px; line-height:1.22; font-weight:800; color:var(--i
 .check {{ border-radius:7px; padding:6mm; font-size:12px; color:#4b6385; line-height:1.7; }}
 .check b {{ display:block; color:var(--ink); font-size:14px; margin-bottom:2mm; }}
 .notice {{ margin-top:8mm; background:#fff8df; border:1px solid #ffe28c; border-radius:8px; padding:6mm; color:#6b581a; font-size:11px; line-height:1.7; }}
+.dp-panel {{ margin-top:7mm; background:#fff; border:1px solid var(--line); border-radius:8px; padding:6mm; }}
+.dp-panel h3 {{ margin:0 0 2mm; font-size:15px; color:var(--ink); }}
+.dp-panel > p {{ margin:0 0 4mm; color:#526a8b; font-size:11px; line-height:1.65; }}
+.dp-grid {{ display:grid; grid-template-columns:1fr 1fr; gap:4mm; }}
+.dp-item {{ border-left:4px solid var(--cyan); background:#f7fbff; padding:4mm; border-radius:6px; min-height:27mm; }}
+.dp-item b,.dp-item span,.dp-item small {{ display:block; }}
+.dp-item b {{ color:var(--ink); font-size:12px; margin-bottom:1mm; }}
+.dp-item span {{ color:var(--blue); font-size:10px; font-weight:800; margin-bottom:1mm; }}
+.dp-item p {{ margin:0; color:#526a8b; font-size:10px; line-height:1.45; }}
+.dp-item small {{ color:#8a6a00; font-size:9px; margin-top:1mm; }}
+.quote-page {{ background:linear-gradient(135deg,#f6faff 0%,#edf6ff 72%,#e4fffb 100%); }}
+.quote-band {{ background:var(--blue); color:#fff; margin:-18mm -18mm 10mm -18mm; padding:15mm 18mm 18mm; position:relative; overflow:hidden; }}
+.quote-band:after {{ content:""; position:absolute; right:-24mm; bottom:-30mm; width:78mm; height:78mm; border-radius:50%; background:var(--cyan); }}
+.quote-band h1 {{ color:#fff; font-size:31px; margin:7mm 0 0; position:relative; z-index:1; }}
+.quote-stats {{ display:grid; grid-template-columns:repeat(3,1fr); gap:6mm; margin-bottom:7mm; }}
+.money {{ background:#fff; border:1px solid var(--line); border-radius:8px; padding:8mm; }}
+.money b {{ display:block; color:var(--blue); font-family:Montserrat,"Avenir Next",Arial,sans-serif; font-size:27px; }}
+.money span,.money small {{ display:block; color:#4b6385; font-size:11px; line-height:1.5; }}
+.quote-table {{ width:100%; border-collapse:collapse; background:#fff; border:1px solid var(--line); border-radius:8px; overflow:hidden; font-size:12px; }}
+.quote-table th {{ background:#eaf4ff; color:#123c75; text-align:left; padding:10px; }}
+.quote-table td {{ border-top:1px solid var(--line); padding:10px; color:#445f82; line-height:1.45; }}
+.quote-note {{ margin-top:7mm; background:#fff8df; border:1px solid #ffe28c; border-radius:8px; padding:6mm; color:#6b581a; font-size:11px; line-height:1.7; }}
 </style>
 </head>
 <body>
@@ -256,10 +321,80 @@ h2 {{ margin:0; font-size:26px; line-height:1.22; font-weight:800; color:var(--i
 
   <section class="page ai-page">
     <div class="title-row"><div><div class="kicker">TRACKABLE LEARNING</div><h2>过程沉淀与启动资料</h2><p class="subtitle">把每门课的学习状态留下记录，便于复习和调整。</p></div><img class="logo" src="{logo}" alt=""></div>
-    <div class="ai-wrap"><div><div class="checklist">{tracking}</div><div class="notice">启动后需要学生提供：{esc(materials)}。</div></div><div><img class="ip-mid" src="{ip_exam}" alt=""><img class="ip-mid" src="{ip_grad}" alt=""></div></div>
+    <div class="ai-wrap"><div><div class="checklist">{tracking}</div>{dp_section}<div class="notice">启动后需要学生提供：{esc(materials)}。</div></div><div><img class="ip-mid" src="{ip_exam}" alt=""><img class="ip-mid" src="{ip_grad}" alt=""></div></div>
     <div class="footer"><span>AI LEARNING SPACE</span><span>07</span></div>
   </section>
 </main>
+</body>
+</html>"""
+
+
+def build_quote_html(data, skill_dir):
+    assets = skill_dir / "assets"
+    logo = asset_uri(assets / "brand/full-logo.jpg")
+    ip_study = asset_uri(assets / "ip/study-dashboard.jpg")
+    student = data["student"]
+    lesson = data["lesson_plan"]
+    quote = data.get("quote") or {}
+    professional = int(lesson["professional_lessons"])
+    pacing = int(lesson["pacing_lessons"])
+    total = int(lesson["total_lessons"])
+    rows = "".join(quote_line(x) for x in quote.get("lines", []))
+    if not rows:
+        rows = (
+            quote_line({"item": "专业课 + 陪跑课", "scope": f"专业课 {professional} 节 + 陪跑课 {pacing} 节，共 {total} 节", "amount": quote.get("planning_total")})
+            + quote_line({"item": "DP 作业保障", "scope": f"{len(data.get('dp_modules', []))} 个作业/项目考核模块", "amount": quote.get("dp_total")})
+        )
+    return f"""<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>{esc(student.get('program'))} 报价单</title>
+<style>
+@page {{ size:A4; margin:0; }}
+* {{ box-sizing:border-box; }}
+:root {{ --blue:#005CFF; --cyan:#00EAD3; --ink:#071C3F; --line:#D7E5FF; --muted:#5B6F8F; }}
+body {{ margin:0; background:#eaf2ff; color:var(--ink); font-family:"Source Han Sans SC","Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif; letter-spacing:0; }}
+.page {{ width:210mm; height:297mm; margin:0 auto; position:relative; overflow:hidden; padding:18mm; }}
+.logo {{ width:42mm; height:auto; object-fit:contain; display:block; position:relative; z-index:1; }}
+.quote-page {{ background:linear-gradient(135deg,#f6faff 0%,#edf6ff 72%,#e4fffb 100%); }}
+.quote-band {{ background:var(--blue); color:#fff; margin:-18mm -18mm 10mm -18mm; padding:15mm 18mm 18mm; position:relative; overflow:hidden; min-height:75mm; }}
+.quote-band:before {{ content:""; position:absolute; right:-23mm; bottom:-32mm; width:88mm; height:88mm; border-radius:50%; background:var(--cyan); }}
+.quote-band h1 {{ color:#fff; font-size:31px; line-height:1.2; margin:9mm 0 0; position:relative; z-index:1; }}
+.quote-band p {{ color:#dceaff; font-size:13px; margin:4mm 0 0; position:relative; z-index:1; }}
+.ip {{ position:absolute; right:18mm; top:20mm; width:43mm; height:43mm; object-fit:contain; z-index:1; }}
+.quote-stats {{ display:grid; grid-template-columns:repeat(3,1fr); gap:6mm; margin-bottom:7mm; }}
+.money {{ background:#fff; border:1px solid var(--line); border-radius:8px; padding:8mm; min-height:38mm; }}
+.money b {{ display:block; color:var(--blue); font-family:Montserrat,"Avenir Next",Arial,sans-serif; font-size:27px; }}
+.money span,.money small {{ display:block; color:#4b6385; font-size:11px; line-height:1.5; }}
+table {{ width:100%; border-collapse:collapse; background:#fff; border:1px solid var(--line); border-radius:8px; overflow:hidden; font-size:12px; }}
+th {{ background:#eaf4ff; color:#123c75; text-align:left; padding:10px; }}
+td {{ border-top:1px solid var(--line); padding:10px; color:#445f82; line-height:1.45; }}
+.note {{ margin-top:7mm; background:#fff8df; border:1px solid #ffe28c; border-radius:8px; padding:6mm; color:#6b581a; font-size:11px; line-height:1.7; }}
+.footer {{ position:absolute; left:18mm; right:18mm; bottom:10mm; display:flex; justify-content:space-between; align-items:center; color:#7890b2; font-size:10px; font-family:Montserrat,"Avenir Next",Arial,sans-serif; }}
+.footer:before {{ content:""; position:absolute; left:0; right:0; top:-6mm; height:1px; background:#d9e8ff; }}
+</style>
+</head>
+<body>
+<section class="page quote-page">
+  <div class="quote-band">
+    <img class="logo" src="{logo}" alt="">
+    <img class="ip" src="{ip_study}" alt="">
+    <h1>{esc(student.get('school'))}<br>{esc(student.get('program'))}<br>混合服务报价单</h1>
+    <p>专业课 + 轻陪跑 + DP 作业保障分开计价，合计展示。</p>
+  </div>
+  <div class="quote-stats">
+    {money_stat(quote.get('planning_total'), '专业课 + 陪跑课', f'专业课 {professional} 节 / 陪跑课 {pacing} 节')}
+    {money_stat(quote.get('dp_total'), 'DP 作业保障', f'{len(data.get("dp_modules", []))} 个作业/项目模块')}
+    {money_stat(quote.get('combined_total'), '合计报价', quote.get('validity', '以资料确认后执行为准'))}
+  </div>
+  <table>
+    <thead><tr><th>服务项目</th><th>服务范围</th><th>金额</th></tr></thead>
+    <tbody>{rows}</tbody>
+  </table>
+  <div class="note">{esc(quote.get('pricing_note') or '正式执行前需确认课程表、syllabus、作业 brief、rubric 与 DDL；DP 仅覆盖已列明的作业/项目类考核，不覆盖考试、在线测验、出勤或课堂学习。')}</div>
+  <div class="footer"><span>JIZHI AI MIXED SUPPORT QUOTE</span><span>QUOTE</span></div>
+</section>
 </body>
 </html>"""
 
@@ -268,6 +403,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("input_json")
     parser.add_argument("output_html")
+    parser.add_argument("--quote-only", action="store_true", help="render the standalone mixed-service quote page")
     args = parser.parse_args()
     skill_dir = Path(__file__).resolve().parent.parent
     data = json.loads(Path(args.input_json).read_text(encoding="utf-8"))
@@ -276,7 +412,8 @@ def main():
         raise SystemExit("Invalid client support proposal intake: " + "; ".join(errors))
     output = Path(args.output_html)
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(build_html(data, skill_dir), encoding="utf-8")
+    html_text = build_quote_html(data, skill_dir) if args.quote_only else build_html(data, skill_dir)
+    output.write_text(html_text, encoding="utf-8")
     print(output)
 
 

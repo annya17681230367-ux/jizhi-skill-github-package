@@ -5,6 +5,7 @@
 - `skills/jizhi-academic-year-plan-proposal/`
   - `SKILL.md`: annual-planning entrypoint
   - `references/output_contracts.md`: fixed T00/T01/T02/T03/T04/T05 output structures
+  - `references/planning_output_taxonomy.md`: academic-planning output families and the UCL-style customer-facing visual master
   - `references/client_support_proposal.md`: flexible student/family-facing customer proposal structure and tone rules
   - `references/service_packages.yaml`: sole standard-hour source
   - `references/service_logic.md`: course classification and execution rules

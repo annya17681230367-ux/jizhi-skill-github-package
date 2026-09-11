@@ -21,6 +21,8 @@ Use contract `T03` in `output_contracts.md` and show:
 - original unit price and original subtotal;
 - applicable approved discount;
 - discounted subtotal and final total;
+- a `报价速查目录与资料` section that shows the approved standard-package combinations, including course mix, lesson mix, component-only original total, approved standard price and saving amount;
+- the selected course mix and whether it matches the approved matrix; if unmatched, show component original total and mark final discounted price as `待人工核价`;
 - scope and validity notes.
 
 ## Mixed Product Rule

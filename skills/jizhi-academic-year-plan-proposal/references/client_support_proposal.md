@@ -16,6 +16,21 @@ Prefer 6-8 visually designed A4 pages:
 
 Do not add long internal rationale sections, exhaustive official evidence, or generic marketing sections. If course names are not official yet, keep one concise boundary line: `正式课程名可在拿到课表和 syllabus 后替换。`
 
+When the user asks to reference a strong existing customer proposal, translate the reference into design principles instead of copying document instructions. The current preferred customer-facing style is the UCL-style project-management route documented in `planning_output_taxonomy.md`: large blue-gradient title block, three metric cards, compact diagnosis, table-based course configuration, separate DP/exam/support sections, execution responsibility and a closing execution-condition page. The SIM DIT route remains a variant for pure first-year pacing proposals, but mixed DP/exam/support work should prefer the UCL structure.
+
+## Mixed DP + Light-Pacing Route
+
+Use this route when the student needs a combined DP and academic support plan.
+
+- Keep the combined plan student/family-facing: the main proposal explains the annual support architecture; the quote is a separate artifact unless the user asks to merge it.
+- Show professional lessons, pacing lessons and DP support as separate service layers. DP covers only assessment production/support tasks; professional lessons cover exam/course learning; pacing lessons cover rhythm, materials, DDL and review.
+- Keep planning and DP quote sources separate. Do not combine formulas or reverse-engineer discounts.
+- For light-pacing plans, professional lessons should be the dominant share. If the user sets a pacing cap, enforce `pacing_lessons <= 3` per course and show the professional share.
+- Put each DP-supported assessment into a specific DP module list: course, assessment type, weight or scope, service depth and pending materials. Do not imply DP covers exams, attendance, quizzes or online tests unless explicitly scoped.
+- Set grade language as target ranges, for example `稳妥执行区间` and `冲刺目标`; never write guaranteed-grade claims.
+- When generating the separate quote page, show at minimum: professional+pacing subtotal, DP subtotal, combined total, validity/material boundary, and the course/service mix used for the quote.
+- Avoid splitting course risk into multiple repetitive card pages when the same information can be shown in one course configuration table and one exam/support table.
+
 ## Tone
 
 - Write for the student/family, not internal reviewers.

@@ -66,6 +66,31 @@
     "roadmap": {"type": "array", "items": {"type": "object"}},
     "tracking": {"type": "array", "items": {"type": "object"}},
     "materials_needed": {"type": "array", "items": {"type": "string"}},
-    "boundary_note": {"type": "string"}
+    "boundary_note": {"type": "string"},
+    "dp_modules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["course", "assessment", "scope", "support"],
+        "properties": {
+          "course": {"type": "string"},
+          "assessment": {"type": "string"},
+          "scope": {"type": "string"},
+          "support": {"type": "string"},
+          "pending": {"type": "string"}
+        }
+      }
+    },
+    "quote": {
+      "type": "object",
+      "properties": {
+        "planning_total": {"type": "string"},
+        "dp_total": {"type": "string"},
+        "combined_total": {"type": "string"},
+        "validity": {"type": "string"},
+        "pricing_note": {"type": "string"},
+        "lines": {"type": "array", "items": {"type": "object"}}
+      }
+    }
   }
 }

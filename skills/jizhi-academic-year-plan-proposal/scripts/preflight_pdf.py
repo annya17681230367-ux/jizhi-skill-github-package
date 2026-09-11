@@ -29,7 +29,7 @@ T01_MARKERS = (
 )
 REQUIRED_MARKERS = {
     "T00": ("ACADEMIC PLANNING", "个性化学业规划报告", "课程与服务匹配"),
-    "T01": T01_MARKERS + ("方案价值", "学业规划价值", "AI智学系统价值", "押题价值", "陪跑课价值", "专业课价值"),
+    "T01": T01_MARKERS + ("五大支持体系", "学业规划", "AI智学系统", "押题支持", "陪跑执行", "专业课支持", "持续闭环"),
     "T02": ("课程考核与服务安排", "课程与服务匹配", "AI智慧学习系统"),
     "T03": ("课程与服务匹配", "服务报价", "原价", "折后价"),
     "T05": ("DP与学业规划服务分工", "课程与服务匹配"),
@@ -121,6 +121,7 @@ def main():
     font_label = "PingFang SC" if native_font else (args.font_fallback or "UNAVAILABLE")
 
     checks["internal_content_absent"] = not any(marker in html_text for marker in INTERNAL_MARKERS)
+    checks["removed_copy_absent"] = "方案价值" not in html_text
     checks["guaranteed_grade_claim_absent"] = not any(re.search(pattern, html_text) for pattern in GUARANTEE_PATTERNS)
     price_present = any(marker in html_text for marker in ("服务报价", "折后价", "原价"))
     checks["price_boundary"] = not price_present if contract in NO_PRICE else True
