@@ -29,9 +29,9 @@ Collect only fields that materially affect the plan:
 
 If the user does not explicitly request custom hours, use the standard package configuration in `references/service_packages.yaml`. Do not invent custom hours.
 
-For stable production, normalize inputs to `assets/schemas/intake.schema.json`, validate with `scripts/validate_intake.py`, then render with `scripts/build_planning_proposal.py`. Every course must map to the shared `课程与服务匹配` fields: course code, course name, assessment form, workload and matched service.
+For stable legacy fixed contracts, normalize inputs to `assets/schemas/intake.schema.json`, validate with `scripts/validate_intake.py`, then render with `scripts/build_planning_proposal.py`. For customer-facing planning proposals and quotes, classify the output with `planning_output_taxonomy.md` and use the flexible client-support route. Every course must map to the shared `课程与服务匹配` fields: course code, course name, assessment form, workload and matched service.
 
-T00/T01/T02/T03/T05 use fixed generators. Fixed headings, service copy, role copy, section order, page count, logo/IP policy and typography cannot be rewritten; only validated student, course, evidence, date, service and authorized price fields are variable. Client-support proposals are a separate flexible route and must not be forced into the T01 exactly-three-page contract.
+T00/T01/T02/T03/T05 fixed generators remain available for legacy/internal fixed contracts. Fixed headings, service copy, role copy, section order, page count, logo/IP policy and typography cannot be rewritten inside those legacy fixed contracts. Customer-facing standard, custom, mixed and planning quote proposals should use the UCL-style flexible route unless the user explicitly asks for the old fixed contract.
 
 ## Evidence
 
@@ -64,8 +64,8 @@ Read additional references only when required:
 2. Verify official course and calendar evidence.
 3. Diagnose the student-specific gap and classify courses as重点/非重点.
 4. Apply standard hours from `service_packages.yaml`, unless custom mode is explicit.
-5. Select one output contract and fill only its variable fields.
-6. Reuse fixed value modules and fixed labels from the contract/template; do not rewrite them.
+5. Select one output family and contract route: UCL-style flexible customer proposal by default for client-facing work, or legacy fixed contract only when requested.
+6. Reuse fixed value modules and fixed labels only inside legacy fixed contracts; flexible customer proposals should follow `planning_output_taxonomy.md`.
 7. Generate the clean client HTML with `build_planning_proposal.py`, then export only that HTML through `export_pdf.py` using HeadlessChrome/Skia. Do not rebuild the customer layout with ReportLab.
 8. `export_pdf.py` must create rendered PNG pages and a same-name `.preflight.json`. Inspect every PNG, then run `preflight_pdf.py ... --visual-reviewed`. Do not deliver unless `preflight_pass=true`.
 9. Generate the same-name `.internal.html/.internal.json` audit attachment. Put sources, missing facts, model estimates, warnings, contract/version identifiers, quote trace and review status only in the internal attachment. If warnings exist, the conversation reply must include exactly: `亲爱的学业规划师，您好！此次方案生成存在【预警提示】：（预警提示内容）`.
@@ -95,7 +95,7 @@ Use this route for polished student/family-facing proposals where the goal is to
 - Fixed template labels, value modules and disclaimers are copied unchanged; only student/course/timeline/service variables are generated.
 - Never place internal sources, boundary notes, warnings, version labels, quote trace IDs or review status in the client artifact.
 - Never suppress ambiguity. Missing official facts, estimated workload, unmatched pricing matrix, unreviewed estimates, stale sources and out-of-scope requests must become warnings in the internal audit artifact and the reply.
-- Visual routing is fixed: T00 follows fixed case 00, T01 case 01, T02 case 02, T03 case 03 and T05 case 05. Do not replace them with a generic long-form document.
+- Legacy fixed visual routing is fixed: T00 follows fixed case 00, T01 case 01, T02 case 02, T03 case 03 and T05 case 05. Client-facing standard/custom/mixed/quote requests use the UCL-style flexible route unless the user explicitly asks for the legacy fixed contract.
 - The customer PDF is incomplete until its `.preflight.json` says `preflight_pass=true`. Wrong page count, missing font contract, missing rendered PNGs, unreviewed PNGs, internal evidence leakage, forbidden price leakage or guaranteed-grade claims are hard failures.
 - Every final delivery reply must reproduce `acceptance_declaration` from the passing preflight file. Missing this declaration means the delivery is incomplete.
 

@@ -1,12 +1,12 @@
 # Academic Planning Output Contracts
 
-Select exactly one fixed contract for T00/T01/T02/T03/T05 outputs. Fixed labels and fixed value modules must be reused unchanged. Generate only fields marked `VARIABLE`.
+Select exactly one route for planning outputs. For client-facing standard, custom, mixed and quote proposals, prefer the flexible UCL-style route. Use the fixed T00/T01/T02/T03/T05 contracts only when the user explicitly asks for the legacy fixed contract or when an integration depends on exact page-count gates. Fixed labels and fixed value modules must be reused unchanged inside those legacy contracts.
 
 When the user explicitly asks for a polished student/family-facing customer proposal, use the separate `CLIENT_SUPPORT` route instead of forcing the work into a fixed T contract. Read `references/client_support_proposal.md` and `references/planning_output_taxonomy.md`. The UCL-style project-management visual master is the default presentation language for future customer-facing T01/T02/T03 variants, custom plans and mixed plans.
 
 Every contract contains a compact `课程与服务匹配` module with: `课程名称 | 课程代码 | 课程考核形式 | 课程工作量 | 匹配服务`. Workload basis, warnings and official source details remain in the internal audit artifact.
 
-All client copy outside student/course/date/price fields is fixed in the generator and its JSON value modules. Do not paraphrase fixed headings, service copy, role copy, labels or section order.
+Inside legacy fixed contracts, all client copy outside student/course/date/price fields is fixed in the generator and its JSON value modules. Do not paraphrase fixed headings, service copy, role copy, labels or section order. In flexible UCL-style customer proposals, follow `planning_output_taxonomy.md`.
 
 ## T00 Personalized Eight-Item Planning Report
 
@@ -78,7 +78,9 @@ Required fixed fields:
 
 - product/course/service line;
 - course classification;
+- subject type and professional direction for custom plans;
 - specialist and planning lesson count;
+- matched services and component services;
 - original price;
 - discount rule/discounted price;
 - final total;
@@ -86,7 +88,7 @@ Required fixed fields:
 
 Do not include DP work. DP quotes belong to the DP quote skill.
 
-Presentation direction for new customer-facing T03 work: use UCL-style price cards plus a quote detail table and, when useful, a quick-reference table for course-count discounts and重点/非重点 combinations. Keep quote rules private and show only authorized customer-facing prices.
+Presentation direction for new customer-facing T03 work: use UCL-style price cards plus a quote detail table, component-service table, and a quick-reference table for course-count discounts and重点/非重点 combinations. Standard quotes must show the matched catalog row's original price, discount/saving and discounted price. Custom quotes must show per-course professional/pacing configuration, matched service, original price, discount and final price. Keep quote rules private and show only authorized customer-facing prices.
 
 Hard gate: fixed case 03, exactly 1 page, no logo/IP, and passing PDF preflight.
 

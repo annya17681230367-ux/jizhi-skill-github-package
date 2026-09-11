@@ -73,11 +73,19 @@ Suggested structure:
 
 1. Quote title and student/program context.
 2. Three large price cards: professional/pacing subtotal, discount or package status, final total.
-3. Quote detail table: course/service line,重点/非重点 classification, professional lessons, pacing lessons, original price, discount and final price.
-4. Quote quick-reference table when useful: different course-count discounts and重点/非重点 combinations.
-5. Validity, material boundary and scope note.
+3. Quote detail table: course/service line,重点/非重点 classification, subject type, professional direction, professional lessons, pacing lessons, matched service, original price, discount and final price.
+4. Component service table: included component services and each component's approved unit amount; in custom plans components are counted once by default unless the user explicitly says otherwise.
+5. Quote quick-reference table: standard course-count discounts and重点/非重点 combinations, with original price, discount/saving and discounted price.
+6. Validity, material boundary and scope note.
 
 Do not include DP pricing in a planning-only quote. For mixed products, show a separate DP quote block produced by the DP quote route.
+
+Calculation principle:
+
+- Standard quote: first count key/non-key courses, then match the approved quick-reference matrix. If matched, display the exact catalog row's original price, discount/saving and discounted package price.
+- Custom quote: use the current student's course lines, custom lesson counts, subject type and professional direction to read unit prices from the authorized pricing source, calculate each course, count component services once by default, apply approved discount rules and display original total, discount status and final total.
+- Mixed quote: calculate planning and DP independently, then add approved subtotals only at the display layer. When DP is included, show which courses matched DP and the single-course DP price when the DP quote source returns it.
+- Unmatched matrix, missing private pricing source or conflicting quote logic: show `待内部核价`, `待确认折扣` or a clear `预警提示`; do not reuse another student's price.
 
 ### Public-Sector Concise Plan
 

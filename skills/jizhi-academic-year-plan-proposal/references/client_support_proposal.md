@@ -4,15 +4,16 @@ Use this route for student/family-facing proposals whose job is to make the serv
 
 ## Content Shape
 
-Prefer 6-8 visually designed A4 pages:
+Default to the UCL-style project-management structure for customer-facing planning work. Prefer 6-8 visually designed A4 pages:
 
-1. Cover: student context, programme, target, total lesson architecture and one unobstructed IP image.
-2. Service architecture: professional teacher, pacing teacher, academic planner and AI learning system.
-3. Lesson mix: professional lessons, pacing lessons, total lessons, per-course caps and risk-tier allocation.
-4. High-risk course map: course risk, observation points, lesson match and course support.
-5. Regular-risk course map: same fields, lighter risk treatment.
-6. Year roadmap: before entry, first month, term, exam -4 weeks and post-result review.
-7. Trackable learning and starting materials: course archive, weak points, weekly records, exam review pack and materials needed.
+1. Cover: school, programme, target range, service mix and one concise project-management judgment.
+2. Student diagnosis: current basis, year risk, target tiers and target boundary.
+3. Course configuration: all courses in one table with assessment, service path and management focus.
+4. DP workload or lesson structure: use DP workload when DP is included; otherwise show standard/custom hour structure.
+5. Exam/professional support: course-level professional lessons, pacing lessons and expected outputs.
+6. Calendar and scheduling: before term, early weeks, term progress, exam countdown and post-result review.
+7. Delivery responsibility: roles, student cooperation and formal material boundary.
+8. Expected outcome: process targets, score target ranges, pending materials and execution conditions.
 
 Do not add long internal rationale sections, exhaustive official evidence, or generic marketing sections. If course names are not official yet, keep one concise boundary line: `正式课程名可在拿到课表和 syllabus 后替换。`
 

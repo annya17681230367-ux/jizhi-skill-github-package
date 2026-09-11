@@ -119,7 +119,7 @@ def quote_line(item):
     """
 
 
-def build_html(data, skill_dir):
+def build_sim_html(data, skill_dir):
     assets = skill_dir / "assets"
     logo = asset_uri(assets / "brand/full-logo.jpg")
     ip_study = asset_uri(assets / "ip/study-dashboard.jpg")
@@ -323,6 +323,270 @@ h2 {{ margin:0; font-size:26px; line-height:1.22; font-weight:800; color:var(--i
     <div class="title-row"><div><div class="kicker">TRACKABLE LEARNING</div><h2>过程沉淀与启动资料</h2><p class="subtitle">把每门课的学习状态留下记录，便于复习和调整。</p></div><img class="logo" src="{logo}" alt=""></div>
     <div class="ai-wrap"><div><div class="checklist">{tracking}</div>{dp_section}<div class="notice">启动后需要学生提供：{esc(materials)}。</div></div><div><img class="ip-mid" src="{ip_exam}" alt=""><img class="ip-mid" src="{ip_grad}" alt=""></div></div>
     <div class="footer"><span>AI LEARNING SPACE</span><span>07</span></div>
+  </section>
+</main>
+</body>
+</html>"""
+
+
+def course_row(course):
+    lessons = f"专业课 {course.get('professional_lessons')} 节 + 陪跑课 {course.get('pacing_lessons')} 节"
+    return f"""
+    <tr>
+      <td>{esc(course.get('name'))}<br><small>{esc(course.get('cn'))}</small></td>
+      <td>{esc(course.get('assessment') or course.get('watch'))}</td>
+      <td>{esc(course.get('service_path') or lessons)}</td>
+      <td>{esc(course.get('support'))}</td>
+    </tr>
+    """
+
+
+def role_row(role):
+    return f"<tr><td>{esc(role.get('title'))}</td><td>{esc(role.get('text'))}</td></tr>"
+
+
+def ucl_stat(value, label, note=""):
+    return f"<div class='stat'><b>{esc(value)}</b><span>{esc(label)}</span><p>{esc(note)}</p></div>"
+
+
+def workflow_card(index, title, text):
+    return f"<div class='workflow-card'><b>{index:02d} {esc(title)}</b><p>{esc(text)}</p></div>"
+
+
+def build_html(data, skill_dir):
+    if data.get("visual_style") == "sim_dit":
+        return build_sim_html(data, skill_dir)
+
+    assets = skill_dir / "assets"
+    logo = asset_uri(assets / "brand/full-logo.jpg")
+    ip_cover = asset_uri(assets / "ip/cheer.jpg")
+    ip_grad = asset_uri(assets / "ip/graduation.jpg")
+
+    student = data["student"]
+    targets = data["targets"]
+    lesson = data["lesson_plan"]
+    professional = int(lesson["professional_lessons"])
+    pacing = int(lesson["pacing_lessons"])
+    total = int(lesson["total_lessons"])
+    courses = data["courses"]
+    dp_modules = data.get("dp_modules", [])
+    has_dp = bool(dp_modules)
+    materials = "、".join(data.get("materials_needed", []))
+    boundary = data.get("boundary_note") or "正式执行以学校handbook、课程平台、Assessment Brief、个人课表和考试安排为准。"
+
+    profile = student.get("profile", [])
+    diagnosis_cards = "".join(
+        f"<div class='box'><h3>{esc(item.get('label'))}</h3><p><b>{esc(item.get('value'))}</b><br>{esc(item.get('note'))}</p></div>"
+        for item in profile[:2]
+    )
+    if not diagnosis_cards:
+        diagnosis_cards = (
+            f"<div class='box'><h3>当前基础</h3><p>{esc(student.get('school'))} {esc(student.get('program'))}，{len(courses)} 门课程进入全年建档。</p></div>"
+            f"<div class='box warn'><h3>年度风险</h3><p>考试、作业、出勤和DDL节点需要统一管理，避免临时启动。</p></div>"
+        )
+
+    tiers = lesson.get("tiers", [])
+    tier_cards = "".join(ucl_stat(t.get("value"), t.get("label"), t.get("note")) for t in tiers[:4])
+    if not tier_cards:
+        tier_cards = (
+            ucl_stat(str(len(courses)), "课程数量", "按课程风险和考核形式配置服务。")
+            + ucl_stat(str(professional), "专业课", "优先解决课程理解、题型和考前输出。")
+            + ucl_stat(str(pacing), "陪跑课", "用于建档、周任务、DDL和阶段复盘。")
+        )
+
+    course_table = "".join(course_row(c) for c in courses)
+    role_table = "".join(role_row(r) for r in data["roles"])
+    roadmap = "".join(
+        f"<div class='phase'><b>{esc(item.get('label'))}</b><p><strong>{esc(item.get('title'))}</strong><br>{esc(item.get('text'))}</p><small>{esc(item.get('owner'))}</small></div>"
+        for item in data["roadmap"]
+    )
+    tracking = "".join(f"<div class='track'><h3>{esc(x.get('title'))}</h3><p>{esc(x.get('text'))}</p></div>" for x in data["tracking"][:4])
+
+    dp_rows = "".join(
+        f"<tr><td>{esc(x.get('course'))}</td><td>{esc(x.get('assessment'))}</td><td>{esc(x.get('scope'))}</td><td>{esc(x.get('support'))}</td></tr>"
+        for x in dp_modules
+    )
+    dp_page = ""
+    if has_dp:
+        dp_page = f"""
+  <section class="page">
+    <div class="kicker">03 · DP WORKLOAD</div><h2>DP作业保障范围</h2>
+    <table><thead><tr><th>课程</th><th>主要考核</th><th>服务深度</th><th>DP管理内容</th></tr></thead><tbody>{dp_rows}</tbody></table>
+    <div class="notice">DP只覆盖已列明的作业/论文/项目类考核；线下考试、在线测验、出勤和课堂学习仍由专业课与陪跑节奏承接。</div>
+    <h2 class="subhead">DP单项执行路径</h2>
+    <div class="workflow">
+      {workflow_card(1, "资料建档", "Brief、Rubric、DDL、导师反馈和reading统一归档。")}
+      {workflow_card(2, "任务卡", "明确评分点、结构、材料、版本节点和风险。")}
+      {workflow_card(3, "方向与结构", "先确认论点与评分标准对应，再进入内容推进。")}
+      {workflow_card(4, "阶段版本", "大纲、初稿、70%版本、质检版本可追踪。")}
+      {workflow_card(5, "多层质检", "结构、证据、引用、语言、格式及原创风险检查。")}
+      {workflow_card(6, "反馈迭代", "结合导师反馈与成绩调整下一项任务策略。")}
+    </div>
+    <div class="footer"><span>DP项目工作量与执行流程</span><span>04</span></div>
+  </section>
+        """
+
+    support_title = "考试/专业课支持" if has_dp else "课时结构与阶段安排"
+    support_rows = "".join(
+        f"<tr><td>{esc(c.get('name'))}</td><td>{esc(c.get('professional_lessons'))} 节</td><td>{esc(c.get('pacing_lessons'))} 节</td><td>{esc(c.get('support'))}</td></tr>"
+        for c in courses
+    )
+
+    return f"""<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>{esc(student.get('program'))} 学业规划方案</title>
+<style>
+@page {{ size:A4; margin:0; }}
+* {{ box-sizing:border-box; }}
+body {{ margin:0; background:#fff; color:#061b43; font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif; letter-spacing:0; }}
+.page {{ width:210mm; height:297mm; margin:0 auto; position:relative; overflow:hidden; background:#fff; padding:19mm 16mm 14mm; page-break-after:always; }}
+.page:last-child {{ page-break-after:auto; }}
+.page:before {{ content:""; position:absolute; top:0; left:0; right:0; height:5mm; background:linear-gradient(90deg,#0062ff,#17dbc8,#9aa7c4); }}
+.logo {{ width:45mm; height:auto; object-fit:contain; }}
+.kicker {{ font-size:12px; letter-spacing:3px; color:#0062ff; font-weight:900; text-transform:uppercase; }}
+h1,h2 {{ margin:0; color:#0a3271; font-weight:850; letter-spacing:0; }}
+h1 {{ font-size:34px; line-height:1.18; }}
+h2 {{ font-size:30px; line-height:1.2; margin-top:8mm; }}
+.subhead {{ font-size:26px; margin-top:12mm; }}
+h3 {{ margin:0 0 5px; font-size:16px; color:#0054d9; }}
+p,li {{ font-size:13px; line-height:1.65; color:#183359; }}
+.footer {{ position:absolute; left:16mm; right:16mm; bottom:9mm; border-top:1px solid #d6e5f7; padding-top:4mm; display:flex; justify-content:space-between; color:#7b8aa6; font-size:10px; }}
+.cover {{ padding-top:22mm; }}
+.hero {{ margin-top:26mm; border-radius:24px; background:linear-gradient(135deg,#113b8f 0%,#0062ff 55%,#22d6ca 100%); color:#fff; padding:18mm 14mm; min-height:92mm; }}
+.hero .kicker,.hero h1,.hero p {{ color:#fff; }}
+.hero p {{ font-size:16px; max-width:150mm; }}
+.chips {{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10mm; }}
+.chip {{ border:1px solid rgba(255,255,255,.6); border-radius:999px; padding:7px 13px; font-size:12px; color:#fff; }}
+.stat-row {{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:12mm; }}
+.stat {{ border:1px solid #c9dcf4; border-radius:12px; background:#f8fbff; padding:16px; min-height:34mm; }}
+.stat b {{ display:block; font-size:32px; color:#0062ff; }}
+.stat span {{ font-weight:800; color:#0054d9; }}
+.stat p {{ margin:5px 0 0; font-size:12px; }}
+.judgment {{ border-left:4px solid #20d6c6; margin-top:10mm; padding-left:8mm; color:#0a3271; font-size:18px; line-height:1.5; font-weight:700; }}
+.ip {{ position:absolute; right:18mm; bottom:25mm; width:45mm; height:45mm; object-fit:contain; }}
+.grid2 {{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:10mm; }}
+.box {{ border:1px solid #c9dcf4; border-radius:12px; background:#f8fbff; padding:14px; min-height:43mm; }}
+.box.warn,.notice {{ background:#fff7e5; border-color:#ffc640; }}
+.box.green {{ background:#edfffb; border-color:#3bd9c8; }}
+.box ul {{ margin:5px 0 0; padding-left:18px; }}
+.target-row {{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:13mm; }}
+.target {{ border:1px solid #c9dcf4; border-radius:12px; padding:16px; background:#f8fbff; }}
+.target.green {{ background:#effffc; border-color:#3bd9c8; }}
+.target b {{ display:block; font-size:29px; color:#0062ff; }}
+.target span {{ font-weight:850; color:#0054d9; }}
+.steps {{ margin-top:12mm; display:grid; gap:13px; }}
+.step {{ display:grid; grid-template-columns:22mm 1fr; gap:12px; align-items:start; }}
+.dot {{ width:13mm; height:13mm; border-radius:50%; background:#0062ff; border:4px solid #d8fff8; box-shadow:0 0 0 2px #31ddca; }}
+.step h3 {{ margin-top:0; }}
+.step p {{ margin:0; }}
+table {{ width:100%; border-collapse:collapse; margin-top:10mm; font-size:11.2px; border:1px solid #c9dcf4; }}
+th {{ background:#0d438d; color:#fff; text-align:left; padding:9px; font-weight:850; }}
+td {{ padding:8px; border-top:1px solid #c9dcf4; vertical-align:top; color:#10294e; line-height:1.42; }}
+td small {{ color:#51698a; }}
+tbody tr:nth-child(even) td {{ background:#f3f8ff; }}
+.mini-panel {{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:10mm; }}
+.mini {{ border:1px solid #c9dcf4; border-radius:12px; background:#f8fbff; padding:15px; }}
+.mini.green {{ background:#edfffb; border-color:#3bd9c8; }}
+.mini p {{ margin:0; }}
+.workflow {{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:12mm; }}
+.workflow-card {{ border:1px solid #c9dcf4; border-radius:12px; background:#f8fbff; padding:14px; min-height:35mm; }}
+.workflow-card b {{ display:block; color:#0062ff; font-size:19px; margin-bottom:5px; }}
+.workflow-card p {{ margin:0; font-size:12px; }}
+.big-metrics {{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:12mm 0; }}
+.big {{ border:1px solid #c9dcf4; border-radius:12px; background:#f8fbff; padding:18px; }}
+.big b {{ display:block; font-size:34px; color:#0062ff; }}
+.big p {{ margin:4px 0 0; }}
+.phase {{ display:grid; grid-template-columns:28mm 1fr 32mm; gap:10px; align-items:start; border-bottom:1px solid #e1ecfa; padding:8px 0; }}
+.phase b {{ color:#0062ff; font-size:16px; }}
+.phase p {{ margin:0; }}
+.phase small {{ color:#008f83; font-weight:800; }}
+.track-grid {{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:13mm 0; }}
+.track {{ background:#f8fbff; border:1px solid #c9dcf4; border-top:5px solid #0062ff; border-radius:8px; padding:13px; min-height:42mm; }}
+.track p {{ margin:0; font-size:12px; }}
+.notice {{ margin-top:9mm; border:1px solid #ffc640; border-radius:12px; padding:15px; color:#6b5300; font-size:13px; line-height:1.6; }}
+</style>
+</head>
+<body>
+<main>
+  <section class="page cover">
+    <img class="logo" src="{logo}" alt="">
+    <div class="hero">
+      <div class="kicker">{esc(student.get('headline') or 'ACADEMIC SUPPORT PLAN')}</div>
+      <h1>{'全年DP安心包<br>与考试陪跑方案' if has_dp else '全年学业规划<br>与课程陪跑方案'}</h1>
+      <p>面向 {esc(student.get('entry_date'))} 的 {esc(student.get('program'))}，围绕课程考核、专业学习、阶段节点和过程沉淀配置全年支持。</p>
+      <div class="chips"><span class="chip">{esc(student.get('school'))}</span><span class="chip">{len(courses)} 门课程</span><span class="chip">专业课 {professional} 节</span><span class="chip">陪跑课 {pacing} 节</span></div>
+    </div>
+    <div class="stat-row">
+      {ucl_stat(targets.get('baseline'), '底线目标', '先降低漏交、失控复习和考试失误风险。')}
+      {ucl_stat(targets.get('main'), '主目标', '围绕核心课程和可拉分任务推进。')}
+      {ucl_stat(str(total) + 'h', '常规授课', f'专业课 {professional}h + 陪跑课 {pacing}h。')}
+    </div>
+    <div class="judgment">这不是单门补课问题，而是多门课程、不同考核模式与多个DDL节点的全年项目制管理问题。</div>
+    <img class="ip" src="{ip_cover}" alt="">
+    <div class="footer"><span>学业规划｜年度服务方案</span><span>01</span></div>
+  </section>
+
+  <section class="page">
+    <div class="kicker">01 · STUDENT DIAGNOSIS</div><h2>学情判断与全年目标</h2>
+    <div class="grid2">{diagnosis_cards}</div>
+    <div class="target-row">
+      <div class="target green"><span>底线目标</span><b>{esc(targets.get('baseline'))}</b><p>以课程过程稳定和关键考核不失控为前提。</p></div>
+      <div class="target"><span>主目标</span><b>{esc(targets.get('main'))}</b><p>按课程风险分层推进专业课、陪跑和DP任务。</p></div>
+      <div class="target"><span>冲刺目标</span><b>{esc(targets.get('stretch'))}</b><p>优势课程争取上探，薄弱课程优先守住底线。</p></div>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="dot"></div><div><h3>先稳住过程</h3><p>所有课程完成建档、权重映射、DDL和考试节点整理，避免漏交与临时启动。</p></div></div>
+      <div class="step"><div class="dot"></div><div><h3>再提高输出</h3><p>DP或作业课程抓质量，考试课程抓题型稳定，陪跑只保留必要节点管理。</p></div></div>
+      <div class="step"><div class="dot"></div><div><h3>最后形成方法</h3><p>把有效的阅读、计算、答题和复习方法沉淀为后续课程可复用资产。</p></div></div>
+    </div>
+    <div class="notice">目标边界：本方案为执行目标和风险管理方案，不构成无条件分数承诺；最终成绩受学校评分、考试表现、资料提供及时性和学生配合程度影响。</div>
+    <div class="footer"><span>学情诊断与目标策略</span><span>02</span></div>
+  </section>
+
+  <section class="page">
+    <div class="kicker">02 · COURSE CONFIGURATION</div><h2>{len(courses)}门课程的服务路径配置</h2>
+    <table><thead><tr><th>课程</th><th>考核/观察重点</th><th>服务路径</th><th>管理重点</th></tr></thead><tbody>{course_table}</tbody></table>
+    <div class="mini-panel"><div class="mini green"><h3>{'DP安心包' if has_dp else '专业课支持'}</h3><p>{'每项DP任务建立任务卡，管理资料、方向、结构、版本、质检和提交核对。' if has_dp else '优先处理课程理解、题型训练、错题复盘和考前输出。'}</p></div><div class="mini"><h3>陪跑执行</h3><p>按课程节点进行资料确认、周任务推进、DDL提醒、出勤/考试节点检查和阶段复盘。</p></div></div>
+    <div class="footer"><span>课程考核与服务路径</span><span>03</span></div>
+  </section>
+
+  {dp_page}
+
+  <section class="page">
+    <div class="kicker">{'04' if has_dp else '03'} · SUPPORT</div><h2>{support_title}</h2>
+    <table><thead><tr><th>课程</th><th>专业课</th><th>陪跑课</th><th>核心成果</th></tr></thead><tbody>{support_rows}</tbody></table>
+    <div class="big-metrics"><div class="big"><b>{professional}h</b><p>专业课，解决学科内容、题型判断和复杂问题。</p></div><div class="big"><b>{pacing}h</b><p>陪跑课，推进复习、资料、检测、错题和考前节奏。</p></div><div class="big"><b>{total}h</b><p>常规授课合计，专业课占比 {round(professional / total * 100)}%。</p></div></div>
+    <div class="mini-panel"><div class="mini green"><h3>阅读与术语</h3><p>保留高频核心术语、公式和概念，要求能解释、能比较、能用于答案。</p></div><div class="mini"><h3>考试输出</h3><p>建立定义-机制-计算/图形-评价结构，从短题逐步过渡到限时套题。</p></div></div>
+    <div class="footer"><span>课时与方法</span><span>{'05' if has_dp else '04'}</span></div>
+  </section>
+
+  <section class="page">
+    <div class="kicker">{'05' if has_dp else '04'} · CALENDAR</div><h2>全年节点推进</h2>
+    <div>{roadmap}</div>
+    <h2 class="subhead">排课原则</h2>
+    <div class="grid2"><div class="box green"><h3>第一优先</h3><p>固定每周学习锚点，避免临近考试或DDL才集中启动。</p></div><div class="box"><h3>可协调时段</h3><p>结合学生Timetable、seminar/tutorial、DDL和考试日期具体排课。</p></div></div>
+    <div class="notice">DP不占固定常规授课时段，按作业节点进行资料确认、版本推进和质检；固定排课主要用于专业课和必要陪跑。</div>
+    <div class="footer"><span>校历节点与排课策略</span><span>{'06' if has_dp else '05'}</span></div>
+  </section>
+
+  <section class="page">
+    <div class="kicker">{'06' if has_dp else '05'} · DELIVERY RESPONSIBILITY</div><h2>全年执行责任</h2>
+    <table><thead><tr><th>角色</th><th>主要责任</th></tr></thead><tbody>{role_table}</tbody></table>
+    <h2 class="subhead">过程沉淀</h2>
+    <div class="track-grid">{tracking}</div>
+    <div class="notice">启动后需要学生提供：{esc(materials)}。</div>
+    <img class="ip" src="{ip_grad}" alt="">
+    <div class="footer"><span>服务责任与配合边界</span><span>{'07' if has_dp else '06'}</span></div>
+  </section>
+
+  <section class="page">
+    <div class="kicker">{'07' if has_dp else '06'} · EXPECTED OUTCOME</div><h2>预期效果与正式执行条件</h2>
+    <div class="grid2"><div class="box green"><h3>过程目标</h3><p>课程建档、阶段任务、错题/资料沉淀、考前复习包和关键DDL节点形成可追踪记录。</p></div><div class="box"><h3>成绩目标</h3><p>底线：{esc(targets.get('baseline'))}；主目标：{esc(targets.get('main'))}；冲刺：{esc(targets.get('stretch'))}。</p></div></div>
+    <div class="steps"><div class="step"><div class="dot"></div><div><h3>课程资料</h3><p>最新syllabus/course outline、Assessment Brief、Rubric、Reading List和课程平台页面。</p></div></div><div class="step"><div class="dot"></div><div><h3>时间资料</h3><p>个人Timetable、seminar/tutorial、全部DDL、online test时间和考试表。</p></div></div><div class="step"><div class="dot"></div><div><h3>保障确认</h3><p>服务范围、学生配合义务、版本节点和合同保障条款。</p></div></div></div>
+    <div class="notice">{esc(boundary)}</div>
+    <div class="footer"><span>预期效果与执行条件</span><span>{'08' if has_dp else '07'}</span></div>
   </section>
 </main>
 </body>
