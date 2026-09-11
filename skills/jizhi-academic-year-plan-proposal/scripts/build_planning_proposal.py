@@ -75,29 +75,54 @@ def quote_client(data):
     ]
     if not rows and not quote.get("final_total"):
         return ""
-    catalog_rows = [
+    selected = quote.get("selected_combo", {})
+    selected_key = selected.get("matrix_key") or quote.get("matrix_key")
+    matched_row = next((x for x in quote.get("standard_catalog", []) if x.get("matrix_key") == selected_key), None)
+    package_rows = []
+    if matched_row and selected.get("matrix_matched"):
+        package_rows.append(
+            (
+                matched_row.get("label"),
+                f'专业课{matched_row.get("specialist_lessons")}节+陪跑课{matched_row.get("planning_lessons")}节',
+                matched_row.get("component_original"),
+                matched_row.get("savings"),
+                matched_row.get("standard_price"),
+                "已命中标准套餐",
+            )
+        )
+    elif selected:
+        package_rows.append(
+            (
+                f'{selected.get("key_courses", 0)}门重点+{selected.get("non_key_courses", 0)}门非重点',
+                f'专业课{selected.get("specialist_lessons", "待确认")}节+陪跑课{selected.get("planning_lessons", "待确认")}节',
+                quote.get("original_total", "待核价"),
+                quote.get("discount_amount", "待确认折扣"),
+                quote.get("final_total", "待内部核价"),
+                "未命中标准套餐，按定制或待核价处理",
+            )
+        )
+    package = ""
+    if package_rows:
+        package = f'''<div class="section-title"><span>PACKAGE</span><h2>套餐命中结果</h2></div>
+        {table(("当前组合", "课时配置", "原价", "折扣", "折后价", "状态"), package_rows, "quote-package")}'''
+    component_source = quote.get("components") or quote.get("component_lines") or []
+    component_rows = [
         (
-            x.get("label"),
-            f'专业课{x.get("specialist_lessons")}节+陪跑课{x.get("planning_lessons")}节',
-            x.get("component_original"),
-            x.get("standard_price"),
-            x.get("savings"),
+            x.get("name", x.get("label", "")),
+            x.get("scope", x.get("quantity", "")),
+            x.get("original", x.get("original_total", "")),
+            x.get("discount", x.get("discount_amount", "暂无折扣")),
+            x.get("final", x.get("final_total", "")),
         )
-        for x in quote.get("standard_catalog", [])
+        for x in component_source
     ]
-    catalog = ""
-    if catalog_rows:
-        selected = quote.get("selected_combo", {})
-        selected_note = (
-            f'{selected.get("key_courses", 0)}门重点+{selected.get("non_key_courses", 0)}门非重点'
-            f'（{"已命中标准组合" if selected.get("matrix_matched") else "未命中标准组合，折后价需人工审核"}）'
-        )
-        catalog = f'''<div class="section-title"><span>PRICE GUIDE</span><h2>报价速查目录与资料</h2></div>
-        <p class="quote-note">当前组合：{e(selected_note)}</p>
-        {table(("标准组合", "课时配置", "组件单买价", "标准方案价", "节省"), catalog_rows, "quote-catalog")}'''
+    components = ""
+    if component_rows:
+        components = f'''<div class="section-title"><span>COMPONENT</span><h2>组件计算明细</h2></div>
+        {table(("组件", "覆盖内容/数量", "原价", "折扣", "折后价"), component_rows, "quote-components")}'''
     return f'''<section class="quote"><div class="section-title"><span>QUOTE</span><h2>服务报价</h2></div>
     {table(("项目", "数量", "原价", "折扣", "折后价"), rows)}
-    <div class="quote-total"><small>原价</small><s>{e(quote.get("original_total", "待核价"))}</s><small>折后价</small><strong>{e(quote.get("final_total", "待核价"))}</strong></div>{catalog}</section>'''
+    <div class="quote-total"><small>原价</small><s>{e(quote.get("original_total", "待核价"))}</s><small>折扣</small><b>{e(quote.get("discount_amount", "待确认折扣"))}</b><small>折后价</small><strong>{e(quote.get("final_total", "待核价"))}</strong></div>{components}{package}</section>'''
 
 
 def brand_header(data, logo, ip):

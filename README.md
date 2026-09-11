@@ -54,7 +54,7 @@ Read `skills/jizhi-academic-year-plan-proposal/references/planning_output_taxono
 - Standard plans: diagnosis, course configuration, lesson structure, timeline, AI learning system and execution responsibilities.
 - Custom plans: course tiering, user-stated lesson caps, professional/pacing split and dynamic adjustment points.
 - Mixed DP + planning plans: separate course configuration, DP workload, exam/professional lesson support, calendar, responsibilities and formal execution conditions.
-- Quote sheets: price cards, authorized price tables and quick-reference course-count/重点非重点 combination tables when useful.
+- Quote sheets: price cards, authorized price tables, current package-match result and separate component calculation tables with original price, discount and final price.
 
 `scripts/route_request.py` is a regression-test and diagnostic helper. Actual Codex routing is controlled by the three non-overlapping `SKILL.md` descriptions.
 
@@ -84,7 +84,7 @@ The current quote API guarantees `final_price`. Original price and discount are 
 
 ## Planning Quote Add-on
 
-陪跑/学业规划价格不放在公开仓库。内部人员另行安装 `jizhi-planning-pricing-private` 后，年度规划 Skill 才能通过 `build_planning_quote.py` 计算并追溯原价、折后价、输入指纹和预警。未安装时必须停止报价，不得猜价。
+陪跑/学业规划价格不放在公开仓库。内部人员另行安装 `jizhi-planning-pricing-private` 后，年度规划 Skill 才能通过 `build_planning_quote.py` 计算并追溯原价、折扣、折后价、输入指纹和预警。报价单只展示当前方案是否命中套餐及命中价格；组件服务需要单独列明。未安装时必须停止报价，不得猜价。
 
 ## Security
 

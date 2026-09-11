@@ -9,6 +9,7 @@
   - `references/client_support_proposal.md`: flexible student/family-facing customer proposal structure and tone rules
   - `references/service_packages.yaml`: sole standard-hour source
   - `references/service_logic.md`: course classification and execution rules
+  - `references/pricing_quote_rules.md`: standard/custom/mixed planning quote logic, package-match display and component calculation rules
   - `assets/schemas/intake.schema.json`: canonical input contract
   - `assets/schemas/client_support_proposal.schema.json`: client-support proposal input contract
   - `assets/templates/planning_fixed_modules.json`: fixed value copy

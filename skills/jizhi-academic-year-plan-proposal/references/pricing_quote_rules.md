@@ -23,8 +23,9 @@ Use contract `T03` in `output_contracts.md` and show:
 - original unit price and original subtotal;
 - applicable approved discount;
 - discounted subtotal and final total;
-- a `报价速查目录与资料` section that shows the approved standard-package combinations, including course mix, lesson mix, component-only original total, approved standard price and saving amount;
-- the selected course mix and whether it matches the approved matrix; if unmatched, show component original total and mark final discounted price as `待人工核价`;
+- a `套餐命中结果` section that shows only the current student's course mix and the matched package row when one exists; do not print the full quick-reference catalog by default;
+- the selected course mix and whether it matches the approved matrix; if matched, show original price, approved discount/saving and discounted package price; if unmatched, show component original total, approved discount status and final/custom price or `待内部核价`;
+- a separate component calculation table that names every included component and shows original price, discount and discounted price for each component or component group;
 - scope and validity notes.
 
 ## Calculation Logic By Quote Type
@@ -37,9 +38,10 @@ Use when the student selects an approved standard package or when the course mix
 
 1. Count courses by classification: `key_courses` and `non_key_courses`.
 2. Load the approved standard package matrix from the private pricing source.
-3. Match the student's course mix against the quote quick-reference catalog, such as `1重点`, `1非重点`, `1重点+1非重点`, `2重点+2非重点`, `3重点+3非重点`, or any newly approved catalog row returned by the private source.
-4. If a catalog row is matched, read that row's original price, discount/saving, discounted standard package price and lesson/service mix.
-5. Display the selected catalog row in the quote sheet, including original price, discount or saving amount, discounted price and whether it is an exact standard-package match.
+3. Check whether the student's course mix exactly matches an approved package row, such as `1重点`, `1非重点`, `1重点+1非重点`, `2重点+2非重点`, `3重点+3非重点`, or any newly approved row returned by the private source.
+4. If a package row is matched, read that row's original price, discount/saving, discounted standard package price and lesson/service mix.
+5. Display only the selected package row in the quote sheet, including original price, discount or saving amount, discounted price and whether it is an exact standard-package match.
+6. Show included components separately as service names and component amounts. For standard packages, component details can be grouped, but the selected package price remains the authoritative discounted price.
 
 If no exact standard matrix exists, do not invent the package discount. Switch to custom quote handling or mark the discounted price as `待内部核价`.
 
@@ -53,8 +55,9 @@ Use when the user specifies nonstandard lesson counts, light-pacing caps, unusua
 4. Read the authorized unit price for each course from the pricing source by subject type and professional direction. Use the matched professional lesson unit price and pacing/planning lesson unit price to calculate each course's original subtotal.
 5. Component services are counted once by default across the custom plan, unless the user explicitly asks to charge a component repeatedly per course or per term.
 6. Match the course count or service mix to any approved custom discount rule returned by the private pricing source.
-7. Display each course's professional lesson subtotal, pacing/planning lesson subtotal, component-service share when applicable, original subtotal, approved discount status and discounted subtotal.
-8. Display total original amount, total discount, final total and warning status.
+7. Display each course's professional lesson subtotal, pacing/planning lesson subtotal, original subtotal, approved discount status and discounted subtotal.
+8. Display component services in a separate table. Name each included component, such as AI智慧学习系统, 课程管理与周度追踪, 入学诊断/规划启动, 日常答疑, 家校反馈 or other selected add-ons; show original price, discount and discounted price for each component. Components are counted once by default unless the user explicitly asks otherwise.
+9. Display total original amount, total discount, final total and warning status.
 
 If the private source says the custom mix is unmatched or pending review, the quote sheet must show `待内部核价` or `待确认折扣`, not a manually guessed discount.
 
@@ -66,9 +69,10 @@ Use when the proposal includes both DP and planning/陪跑/professional lessons.
 2. Calculate DP assessments with `dp-product-new-customer-quote`.
 3. Show per-course planning/professional/pacing prices and per-course DP matches in one quote table when DP is present. For each course show: planning original price, planning discount, planning discounted price, DP service matched or not, single-course DP price when returned, and course subtotal.
 4. Show two independent subtotals: planning subtotal and DP subtotal.
-5. Show total lesson count, total service match summary, total original amount, total discount and final combined amount.
-6. Show a combined total only as arithmetic addition of the approved planning subtotal and approved DP subtotal.
-7. Keep warnings separate: planning warnings for course mix/lesson pricing; DP warnings for Brief, rubric, DDL, workload and assessment evidence.
+5. Show the planning component table separately from DP pricing. DP rows must identify matched DP service and single-course DP price when available.
+6. Show total lesson count, total service match summary, total original amount, total discount and final combined amount.
+7. Show a combined total only as arithmetic addition of the approved planning subtotal and approved DP subtotal.
+8. Keep warnings separate: planning warnings for course mix/lesson pricing; DP warnings for Brief, rubric, DDL, workload and assessment evidence.
 
 Never use a planning discount to discount DP, and never use a DP final price to infer planning price.
 
